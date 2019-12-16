@@ -64,6 +64,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+<!--    感应服务端发生变化    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
 

@@ -5,4 +5,22 @@ eureka:
       defaultZone: http://localhost:1000/eureka
   instance:
     lease-renewal-interval-in-seconds: 5 #心跳间隔时间
-    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际10
+    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
+    prefer-ip-address: false # 默认false 设置为true
+spring:
+  datasource:
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/local?useUnicode=true&allowMultiQuer
+  cloud:
+    config:
+      label: dev
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: config
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB

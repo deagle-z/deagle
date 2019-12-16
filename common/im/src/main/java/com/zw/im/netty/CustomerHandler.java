@@ -1,12 +1,16 @@
 package com.zw.im.netty;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.HttpObject;
+import io.netty.handler.codec.http.*;
+import io.netty.util.CharsetUtil;
 
 /**
  * 自定义 channel handler
+ *
  * @author zw
  * @date 2019/12/13
  */
@@ -66,8 +70,17 @@ public class CustomerHandler extends SimpleChannelInboundHandler<HttpObject> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg)  {
+    protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
         Channel currentChannel = ctx.channel();
-
+        if (msg instanceof HttpRequest) {
+//            当前访问客户端的远程地址
+            System.out.println(currentChannel.remoteAddress());
+            ByteBuf helloNetty = Unpooled.copiedBuffer("Hello Netty", CharsetUtil.UTF_8);
+//            构建一个返回的response
+            DefaultFullHttpResponse defaultFullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, helloNetty);
+            defaultFullHttpResponse.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
+            defaultFullHttpResponse.headers().set(HttpHeaderNames.CONTENT_LENGTH, helloNetty.readableBytes());
+            ctx.writeAndFlush(defaultFullHttpResponse);
+        }
     }
 }

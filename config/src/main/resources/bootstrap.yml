@@ -1,0 +1,26 @@
+server:
+  port: 1001
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri:  https://github.com/deagle-z/config_file
+          search-paths: /*
+          default-label: dev
+          basedir: /file
+          timeout: 60
+          username: deagle-z
+          password: zhw86653527
+      label: dev
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 5 #心跳间隔时间
+    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
+    prefer-ip-address: false # 默认false 设置为true
