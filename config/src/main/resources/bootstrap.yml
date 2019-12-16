@@ -1,19 +1,22 @@
 server:
   port: 1001
 spring:
+  #  profiles:
+  #    active: native
   application:
     name: config
   cloud:
     config:
       server:
         git:
-          uri:  https://github.com/deagle-z/config_file
+          uri: https://github.com/deagle-z/config_file
           search-paths: /*
           default-label: dev
-          basedir: /file
+          basedir: /config_file/file/
           timeout: 60
           username: deagle-z
           password: zhw86653527
+          clone-on-start: true
       label: dev
 eureka:
   client:
