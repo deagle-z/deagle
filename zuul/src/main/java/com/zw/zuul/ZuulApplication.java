@@ -7,7 +7,8 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @EnableZuulProxy
 @EnableEurekaClient
-@EnableSwaggerButler
+//@EnableSwaggerButler
+// 一个增强swagger的工具
 @SpringBootApplication
 public class ZuulApplication {
 

@@ -5,15 +5,17 @@ spring:
     name: config
   profiles:
     active: dev
-
+#    active: native
   cloud:
     config:
       server:
+        native:
+#          search-locations: classpath:/config
         git:
           uri: https://github.com/deagle-z/config_file.git
           search-paths: /*
-          default-label: ${spring.profiles.active}
-          basedir: /config_file/file
+#          default-label: ${spring.profiles.active}
+          basedir: /config_file
           timeout: 60
           username: deagle-z
           password: zhw86653527
@@ -28,3 +30,6 @@ eureka:
     lease-renewal-interval-in-seconds: 5 #心跳间隔时间
     lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
     prefer-ip-address: false # 默认false 设置为true
+health:
+  config:
+    enabled: false

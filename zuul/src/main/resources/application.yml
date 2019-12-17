@@ -1,51 +1,35 @@
-zuul:
-  host:
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
-  force-original-query-string-encoding: true
-  routes:
-    auth-route:
-      path: /cpms/security/**
-      sensitiveHeaders:
-      service-id: cpms-common-auth-provider
-    user-route:
-      path: /cpms/user/**
-      sensitiveHeaders:
-      service-id: cpms-common-user-provider
-    file-route:
-      path: /cpms/file/**
-      sensitiveHeaders:
-      service-id: cpms-common-file-provider
-    iplan-route:
-      path: /cpms/invest/**
-      sensitiveHeaders:
-      service-id: cpms-plan-invest-provider
-    sysdic-route:
-      path: /cpms/sysdic/**
-      sensitiveHeaders:
-      service-id: cpms-common-sysdic-provider
-    task-route:
-      path: /cpms/task/**
-      sensitiveHeaders:
-      service-id: cpms-common-task-provider
-    macp-route:
-      path: /cpms/macp/**
-      sensitiveHeaders:
-      service-id: cpms-macp-provider
-    mdsg-route:
-      path: /cpms/mdsg/**
-      sensitiveHeaders:
-      service-id: cpms-mdsg-provider
-    mrpi-route:
-      path: /cpms/mrpi/**
-      sensitiveHeaders:
-      service-id: cpms-poject-mrpi-provider
-    meng-route:
-      path: /cpms/meng/**
-      sensitiveHeaders:
-      service-id: cpms-poject-meng-provider
+#zuul:
+#  host:
+#    socket-timeout-millis: 15000
+#    connect-timeout-millis: 60000
+#  force-original-query-string-encoding: true
+#  routes:
+#    clientMajor:
+#      path: /deagle/major/**
+#      sensitiveHeaders:
+#      service-id: clientMajor
+#  ribbon-isolation-strategy: SEMAPHORE
+#  semaphore:
+#    max-semaphores: 20
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMillisecond: 90000
+#ribbon:
+#  eager-load:
+#    enabled: true
+#    clients: clientMajor
 spring:
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 1024MB
+#zuul:
+#  host:
+#    connect-timeout-millis: 300000
+#    socket-timeout-millis: 100000
+#    connection-request-timeout-millis: 100000
+#    time-to-live: 10000

@@ -1,0 +1,10 @@
+spring:
+#  redis:
+#    database:
+#    host: 127.0.0.1
+#    port: 6637
+#    client-name:
+#    password:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/process
