@@ -1,4 +1,6 @@
-package com.zw.util.base;
+package com.zw.base;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author zw
@@ -6,8 +8,10 @@ package com.zw.util.base;
  * @date 2019/12/17
  */
 public class QueryPage<T> {
+    @NotNull
     public Integer currentPage;
+    @NotNull
     public Integer size;
-    public String sort;
-    public T condition;
+    public T detail;
+    public String condition;
 }
