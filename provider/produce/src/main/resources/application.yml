@@ -1,0 +1,24 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: produce
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+    publisher-returns: true  #开始失败返回
+    publisher-confirm-type: correlated #事物模式 降低吞吐量？
+    listener:
+      simple:
+        acknowledge-mode: auto #开启ack
+      direct:
+        acknowledge-mode: auto
+    template: #支持消息的确认返回
+      mandatory: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

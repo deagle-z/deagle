@@ -8,3 +8,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/test
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

@@ -1,0 +1,11 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: consumer
+  rabbitmq:
+    listener:
+      simple:
+        acknowledge-mode: auto
+      direct:
+        acknowledge-mode: auto
