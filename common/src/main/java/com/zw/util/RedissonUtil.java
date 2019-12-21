@@ -73,14 +73,19 @@ public class RedissonUtil {
       * @date 2019/12/21
       * @param key k
       * @param seconds 秒
-      * @return boolean
+      * @return RLock
     */
-    public boolean tryLock(String key, Long seconds) {
+    public RLock tryLock(String key, Long seconds) {
         RLock lock = redissonClient.getLock(key);
         try {
-            return lock.tryLock(seconds, TimeUnit.SECONDS);
+            boolean isLock = lock.tryLock(seconds, TimeUnit.SECONDS);
+            if(isLock){
+                return lock;
+            }else{
+                return null;
+            }
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
 
