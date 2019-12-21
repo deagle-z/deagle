@@ -2,6 +2,7 @@ package com.zw.util;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -11,7 +12,8 @@ import javax.annotation.Resource;
  * @date 2019/12/17
  */
 
-public class RedisUtils {
+@Component
+public class RedisUtil {
 
     @Resource
     private RedisTemplate redisTemplate;

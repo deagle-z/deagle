@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 初始化一些队列 交换机
- *
+ * 注意： 所有的队列名称 至上使用 3个‘.’号间隔 最后两位('.x.x')一定不能一样
  * @author zw
  * @date 2019/12/20
  */

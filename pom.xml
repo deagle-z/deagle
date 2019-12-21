@@ -2,21 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.zw</groupId>
     <artifactId>deagle</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-<!--    <name>deagle</name>-->
-<!--    <description>practice</description>-->
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
     <modules>
         <module>common</module>
         <module>config</module>
@@ -24,6 +13,8 @@
         <module>zuul</module>
         <module>provider</module>
     </modules>
+<!--    <name>deagle</name>-->
+<!--    <description>practice</description>-->
 
     <!-- 设定仓库 -->
     <repositories>
@@ -37,6 +28,12 @@
         </repository>
     </repositories>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
 
     <properties>
@@ -84,6 +81,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>deagle</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

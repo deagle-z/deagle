@@ -1,13 +1,13 @@
 spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
 #  redis:
 #    database:
 #    host: 127.0.0.1
 #    port: 6637
-#    client-name:
-#    password:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/test
+redisson:
+      address: redis://127.0.0.1:6379
 management:
   endpoints:
     web:

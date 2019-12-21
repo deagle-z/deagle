@@ -6,12 +6,12 @@
         <groupId>com.zw</groupId>
         <artifactId>deagle</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.zw</groupId>
     <artifactId>provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>provider</name>
+    <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
 
     <modules>
@@ -25,6 +25,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.zw.deagle</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>

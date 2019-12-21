@@ -16,9 +16,9 @@ import org.springframework.data.domain.Sort;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeaglePageable implements Pageable {
+public class DeaglePageable<T> implements Pageable {
 
-    private QueryPage queryPage;
+    private QueryPage<T> queryPage;
     private String sortColumn;
 
     @Override
