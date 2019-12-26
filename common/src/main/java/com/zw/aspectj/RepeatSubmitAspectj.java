@@ -1,4 +1,4 @@
-package com.zw.aspectJ;
+package com.zw.aspectj;
 
 import com.zw.annotation.NoRepeatSubmit;
 import com.zw.util.RedissonUtil;
@@ -32,7 +32,7 @@ public class RepeatSubmitAspectj {
     /**
      * 定义切点 被@NoRepeatSubmit标识的方法
      *
-     * @param noRepeatSubmit
+     * @param noRepeatSubmit 注解
      * @date 2019/12/21
      */
     @Pointcut("@annotation(noRepeatSubmit)")
@@ -42,29 +42,31 @@ public class RepeatSubmitAspectj {
     /**
      * 环绕通知
      *
-     * @param point 切点
+     * @param point          切点
      * @param noRepeatSubmit 注解
      * @return Object
      * @date 2019/12/21
      */
-    @Around("pointCut(noRepeatSubmit)")
+    @Around(value = "pointCut(noRepeatSubmit)", argNames = "point,noRepeatSubmit")
     public Object around(ProceedingJoinPoint point, NoRepeatSubmit noRepeatSubmit) throws Throwable {
         int lockTime = noRepeatSubmit.lockTime();
         final HttpServletRequest request = RequestUtils.getRequest();
-        Assert.notNull(request,"request can not null");
+        Assert.notNull(request, "request can not null");
+        //todo 待优化 不止从header中获取token
         final String token = request.getHeader("Authorization");
         final String servletPath = request.getServletPath();
         //由token和url拼成key
         String key = token + servletPath;
-        RLock rLock = redissonUtil.tryLock(key, Long.valueOf(lockTime));
+        RLock rLock = redissonUtil.tryLock(key, (long) lockTime);
         try {
-            if (rLock!=null) {
-                log.info("tryLock success,key is [{}],lockTime [{}]",key,lockTime);
-                Object proceed = point.proceed();
-                return proceed;
+            if (rLock != null) {
+                log.info("tryLock success,key is [{}],lockTime [{}]", key, lockTime);
+                return point.proceed();
             }
-        }finally {
-            rLock.unlock();
+        } finally {
+            if (rLock != null) {
+                rLock.unlock();
+            }
         }
         return "请勿重复点击！";
     }

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * redisson 工具测试
  * redisson 分布式锁尽量使用待过期时间的分布式锁，
  * 因为一个线程上了锁只能由这个线程自己解，如果这个线程还没解就报错那么这个锁除非自己过期，不会释放
+ *
  * @author zw
  * @date 2019/12/20
  */
@@ -58,30 +59,35 @@ public class RedissonUtil {
      * @return boolean
      * @date 2019/12/21
      */
-    public boolean tryLock(String key) {
+    public RLock tryLock(String key) {
         RLock lock = redissonClient.getLock(key);
         try {
-            return lock.tryLock();
+            boolean b = lock.tryLock();
+            if (b) {
+                return lock;
+            }
         } catch (Exception e) {
-            return false;
+            return null;
         }
+        return null;
     }
 
 
     /**
-      * 尝试获取锁 获得锁后锁住seconds秒
-      * @date 2019/12/21
-      * @param key k
-      * @param seconds 秒
-      * @return RLock
-    */
+     * 尝试获取锁 获得锁后锁住seconds秒
+     *
+     * @param key     k
+     * @param seconds 秒
+     * @return RLock
+     * @date 2019/12/21
+     */
     public RLock tryLock(String key, Long seconds) {
         RLock lock = redissonClient.getLock(key);
         try {
             boolean isLock = lock.tryLock(seconds, TimeUnit.SECONDS);
-            if(isLock){
+            if (isLock) {
                 return lock;
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception e) {
@@ -90,11 +96,12 @@ public class RedissonUtil {
     }
 
     /**
-      * 解锁
-      * @date 2019/12/21
-      * @param key k
-    */
-    public void unLock(String key){
+     * 解锁
+     *
+     * @param key k
+     * @date 2019/12/21
+     */
+    public void unLock(String key) {
         RLock lock = redissonClient.getLock(key);
         lock.unlock();
     }
