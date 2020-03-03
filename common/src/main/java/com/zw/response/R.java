@@ -20,7 +20,10 @@ public class R<T> implements Serializable {
 
     public static final int NO_PERMISSION = 403;
 
+    private static final String MSG = "success";
+
     private String msg = "success";
+
 
     private int code = SUCCESS;
 
@@ -88,8 +91,8 @@ public class R<T> implements Serializable {
         return r;
     }
 
-    public R success() {
-        return new R(msg, SUCCESS);
+    public static R success() {
+        return new R(MSG, SUCCESS);
     }
 
     public R error() {

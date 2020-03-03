@@ -3,8 +3,8 @@ package com.zw.provider.major.ioc.impl;
 import com.zw.provider.major.ioc.BeanDefinition;
 import com.zw.provider.major.ioc.BeanDefinitionRegistery;
 import com.zw.provider.major.ioc.BeanFactory;
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import java.io.Closeable;
