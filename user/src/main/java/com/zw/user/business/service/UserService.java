@@ -1,4 +1,4 @@
-package com.zw.user.business.service;
+package com.zw.auth.business.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
