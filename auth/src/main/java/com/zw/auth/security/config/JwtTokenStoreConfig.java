@@ -1,25 +1,22 @@
-/*
- * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2018
- *
- * The copyright to the computer program(s) herein is the property of
- * CMSS Co.,Ltd. The programs may be used and/or copied only with written
- * permission from CMSS Co.,Ltd. or in accordance with the terms and conditions
- * stipulated in the agreement/contract under which the program(s) have been
- * supplied.
- */
+package com.zw.auth.security.config;
 
-package com.chinamobile.cmss.cpms.common.auth.config;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-/**
- * Create by Tianhaobing ON 2019/2/3
- */
+
 @Configuration
 public class JwtTokenStoreConfig {
 
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
     /**
      * Jwt token store token store.
      *
@@ -38,9 +35,14 @@ public class JwtTokenStoreConfig {
      */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("cpms");
+        converter.setSigningKey("deagle");
+        // 可以设置证书
+//        KeyStoreKeyFactory keyStoreKeyFactory =
+//                new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"), "mypass".toCharArray());
+//        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+//        通过 JDK 工具生成 JKS 证书文件，并将 keystore.jks 放入resource目录下
+//        keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore keystore.jks -storepass mypass
         return converter;
     }
 
@@ -52,8 +54,15 @@ public class JwtTokenStoreConfig {
     @Bean
     @ConditionalOnBean(TokenEnhancer.class)
     public TokenEnhancer jwtTokenEnhancer() {
-
         return new TokenJwtEnhancer();
     }
 
+    @Bean
+//    @ConditionalOnProperty(prefix = "whale.security.oauth2",name = "storeType",havingValue = "redis",matchIfMissing = false)
+    public TokenStore tokenStore(){
+        //prefix为配置文件中的前缀,
+        //name为配置的名字
+        //havingValue是与配置的值对比值,当两个值相同返回true,配置类生效.
+        return new RedisTokenStore(redisConnectionFactory);
+    }
 }

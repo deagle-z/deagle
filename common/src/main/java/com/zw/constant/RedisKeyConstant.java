@@ -1,6 +1,6 @@
 package com.zw.constant;
 
-public class RedisKey {
+public class RedisKeyConstant {
 
-
+    public static final String TOKEN_KEY = "ACCESS_TOKEN:";
 }

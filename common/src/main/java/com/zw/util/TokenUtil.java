@@ -1,10 +1,12 @@
-package com.zw.deagle.util;
+package com.zw.util;
 
-import com.zw.deagle.constants.CommonConstants;
-import com.zw.deagle.auth.entity.User;
-import com.zw.deagle.base.exception.BusinessException;
-import com.zw.deagle.base.exception.UserInfoInvalidException;
-import io.jsonwebtoken.*;
+import com.zw.base.entity.SecurityDetail;
+import com.zw.constant.CommonConstants;
+import com.zw.exception.BusinessException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -45,53 +47,53 @@ public class TokenUtil {
     /**
      * 获取默认时间的token
      *
-     * @param user
+     * @param securityDetail
      * @return String
      * @author zw
      * @date 2020/2/3
      */
-    public static String getToken(User user) {
-        return createToken(user, APP_SECRET, EXPIRE);
+    public static String getToken(SecurityDetail securityDetail) {
+        return createToken(securityDetail, APP_SECRET, EXPIRE);
     }
 
-    public static String getExchangeToken(User user) {
+    public static String getExchangeToken(SecurityDetail securityDetail) {
 //        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        return createToken(user, EXCHANGE_APP_SECRET, null);
+        return createToken(securityDetail, EXCHANGE_APP_SECRET, null);
     }
 
 
-    public static User parseToken(String token) {
+    public static SecurityDetail parseToken(String token) {
         return paresToken(token, APP_SECRET);
     }
 
-    public static User parseExchangeToken(String token) {
+    public static SecurityDetail parseExchangeToken(String token) {
         return paresToken(token, EXCHANGE_APP_SECRET);
     }
 
-    public static User paresToken(String token, String secret) {
+    public static SecurityDetail paresToken(String token, String secret) {
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(secret))
                 .parseClaimsJws(token).getBody();
-        User user = new User();
+        SecurityDetail securityDetail = new SecurityDetail();
         if (claims.containsKey(EXP_KEY)) {
             Long aLong = claims.get(EXP_KEY, Long.class);
             if (System.currentTimeMillis() <= aLong) {
                 if (claims.containsKey(CommonConstants.TOKEN_USERNAME) &&
                         StringUtils.isNoneEmpty(claims.get(CommonConstants.TOKEN_USERNAME, String.class))) {
-                    user.setUsername(claims.get(CommonConstants.TOKEN_USERNAME, String.class));
+                    securityDetail.setUsername(claims.get(CommonConstants.TOKEN_USERNAME, String.class));
                 } else {
                     throw new BusinessException("解析失败");
                 }
             } else {
-                throw new UserInfoInvalidException("用户信息已过期,请重新登录");
+                throw BusinessException.userInfoInvalidException();
             }
         }
-        return user;
+        return securityDetail;
     }
 
 
-    public static String createToken(User user, String secret, Long expire) {
-        if (user.getUsername() == null || user.getPassword() == null) {
+    public static String createToken(SecurityDetail securityDetail, String secret, Long expire) {
+        if (securityDetail.getUsername() == null || securityDetail.getPassword() == null) {
             throw new BusinessException("获取用户信息失败!");
         }
         //签名算法
@@ -104,8 +106,8 @@ public class TokenUtil {
                 .setIssuedAt(new Date())
                 .setSubject(SUBJECT)
                 .setIssuer("zw")
-                .claim(CommonConstants.TOKEN_USERNAME, user.getUsername())
-                .claim("EXP", user.getUsername())
+                .claim(CommonConstants.TOKEN_USERNAME, securityDetail.getUsername())
+                .claim("EXP", securityDetail.getUsername())
                 .signWith(signingKey);
         if (expire != null) {
             jwtBuilder.setExpiration(new Date(System.currentTimeMillis() + EXPIRE))

@@ -12,6 +12,8 @@
         <module>eureka</module>
         <module>zuul</module>
         <module>provider</module>
+        <module>auth</module>
+        <module>user</module>
     </modules>
 <!--    <name>deagle</name>-->
 <!--    <description>practice</description>-->

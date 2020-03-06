@@ -1,7 +1,8 @@
-package com.zw.user.business.service;
+package com.zw.auth.business.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zw.auth.business.entity.User;
 
 /**
  * user 测试
@@ -9,5 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author zw
  */
 
-public interface UserService extends IService<com.zw.auth.entity.User> {
+public interface UserService extends IService<User> {
+
+    User getUserByName(String name);
 }

@@ -1,6 +1,6 @@
 package com.zw.config;
 
-import com.zw.entity.RedissonProperties;
+import com.zw.base.RedissonProperties;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;

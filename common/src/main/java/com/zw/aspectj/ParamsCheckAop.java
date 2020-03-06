@@ -1,8 +1,8 @@
-package com.zw.deagle.base.aspectj;
+package com.zw.aspectj;
 
-import com.zw.deagle.annoation.Verify;
-import com.zw.deagle.base.exception.BusinessException;
-import com.zw.deagle.util.ReflectionUtil;
+import com.zw.annotation.Verify;
+import com.zw.exception.BusinessException;
+import com.zw.util.ReflectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,7 +24,7 @@ import static org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProx
 public class ParamsCheckAop {
 
     @Around("@annotation(verify)")
-    public Object check(ProceedingJoinPoint point,Verify verify) throws Throwable {
+    public Object check(ProceedingJoinPoint point, Verify verify) throws Throwable {
         Object obj;
         // 参数校验
         String msg = doCheck(point);

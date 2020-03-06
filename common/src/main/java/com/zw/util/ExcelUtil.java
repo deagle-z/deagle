@@ -1,12 +1,6 @@
-/*------------------------------------------------------------------------------
- *******************************************************************************
- * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2018
- *******************************************************************************
- *----------------------------------------------------------------------------*/
-package com.chinamobile.cmss.cpms.common.utils.util;
+package com.zw.util;
 
-import com.chinamobile.cmss.cpms.common.base.exception.BusinessException;
-import com.chinamobile.cmss.cpms.common.dto.BASE64DecodedMultipartFileDto;
+import com.zw.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jxls.reader.ReaderBuilder;
 import net.sf.jxls.reader.XLSReadStatus;
@@ -18,19 +12,11 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
-import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,30 +82,30 @@ public class ExcelUtil {
         exportFile(templetFilePath, fileName, null, dataMap, response);
     }
 
-    public static MultipartFile exportFileSave(final String templetFilePath, final String fileName, final String sheetName, final String title, final Map<String, Object> dataMap) {
-
-//        FileUtil.wrapDownloadResponse(response, fileName);
-        InputStream in = null;
-        try {
-            final XLSTransformer transformer = new XLSTransformer();
-            in = ExcelUtil.class.getClassLoader().getResourceAsStream(templetFilePath);
-            final Workbook workbook = transformer.transformXLS(in, dataMap);
-            if (StringUtils.isNotBlank(sheetName)) {
-                workbook.setSheetName(0, sheetName);
-            }
-            workbook.setForceFormulaRecalculation(true);
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            workbook.write(outputStream);
-//            workbook.write(response.getOutputStream());
-            final MultipartFile file = OutStreamTomultipartFile(outputStream, title);
-            return file;
-        } catch (final Exception e) {
-            LOGGER.error("导出xls失败", e);
-        } finally {
-            IOUtils.closeQuietly(in);
-        }
-        return null;
-    }
+//    public static MultipartFile exportFileSave(final String templetFilePath, final String fileName, final String sheetName, final String title, final Map<String, Object> dataMap) {
+//
+////        FileUtil.wrapDownloadResponse(response, fileName);
+//        InputStream in = null;
+//        try {
+//            final XLSTransformer transformer = new XLSTransformer();
+//            in = ExcelUtil.class.getClassLoader().getResourceAsStream(templetFilePath);
+//            final Workbook workbook = transformer.transformXLS(in, dataMap);
+//            if (StringUtils.isNotBlank(sheetName)) {
+//                workbook.setSheetName(0, sheetName);
+//            }
+//            workbook.setForceFormulaRecalculation(true);
+//            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            workbook.write(outputStream);
+////            workbook.write(response.getOutputStream());
+//            final MultipartFile file = OutStreamTomultipartFile(outputStream, title);
+//            return file;
+//        } catch (final Exception e) {
+//            LOGGER.error("导出xls失败", e);
+//        } finally {
+//            IOUtils.closeQuietly(in);
+//        }
+//        return null;
+//    }
 
 
     public static void exportFile(final String templetFilePath, final String fileName, final String sheetName,
@@ -166,12 +152,12 @@ public class ExcelUtil {
             IOUtils.closeQuietly(in);
         }
     }
-
-    public static MultipartFile OutStreamTomultipartFile(final ByteArrayOutputStream outputStream, final String title) {
-        final ByteArrayInputStream bais = new ByteArrayInputStream(outputStream.toByteArray());
-        final String strBase64 = ioToBase64(bais);
-        return base64ToMultipart(strBase64, title, bais);
-    }
+//
+//    public static MultipartFile OutStreamTomultipartFile(final ByteArrayOutputStream outputStream, final String title) {
+//        final ByteArrayInputStream bais = new ByteArrayInputStream(outputStream.toByteArray());
+//        final String strBase64 = ioToBase64(bais);
+//        return base64ToMultipart(strBase64, title, bais);
+//    }
 
     private static String ioToBase64(final InputStream in) {
         String strBase64 = null;
@@ -188,19 +174,19 @@ public class ExcelUtil {
         return strBase64;
     }
 
-    private static MultipartFile base64ToMultipart(final String base64, final String title, final InputStream in) {
-        byte[] b = null;
-        try {
-            final BASE64Decoder decoder = new BASE64Decoder();
-            b = decoder.decodeBuffer(base64);
-            for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {
-                    b[i] += 256;
-                }
-            }
-        } catch (Exception e) {
-            log.error("base64转byte数组失败!", e);
-        }
-        return new BASE64DecodedMultipartFileDto(b, title, in);
-    }
+//    private static MultipartFile base64ToMultipart(final String base64, final String title, final InputStream in) {
+//        byte[] b = null;
+//        try {
+//            final BASE64Decoder decoder = new BASE64Decoder();
+//            b = decoder.decodeBuffer(base64);
+//            for (int i = 0; i < b.length; ++i) {
+//                if (b[i] < 0) {
+//                    b[i] += 256;
+//                }
+//            }
+//        } catch (Exception e) {
+//            log.error("base64转byte数组失败!", e);
+//        }
+//        return new BASE64DecodedMultipartFileDto(b, title, in);
+//    }
 }

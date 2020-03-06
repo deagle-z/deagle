@@ -1,4 +1,4 @@
-package com.zw.auth.entity;
+package com.zw.user.business.entity;
 
 import com.zw.base.entity.BaseEntity;
 import lombok.Data;

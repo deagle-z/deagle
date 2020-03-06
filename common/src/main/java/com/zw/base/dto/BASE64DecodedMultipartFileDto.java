@@ -1,4 +1,4 @@
-package com.zw.entity.dto;
+package com.zw.base.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 

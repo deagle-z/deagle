@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 防接口重复提交
+ * 接口重复提交
  * 默认5秒
  * @date 2019/12/20
   * @author zw

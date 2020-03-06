@@ -50,6 +50,11 @@ public class R<T> implements Serializable {
         this.code = code;
         this.msg = msg;
     }
+    public R(int code, T data) {
+        super();
+        this.data = data;
+        this.code = code;
+    }
 
 
     public R(Throwable e) {
@@ -95,11 +100,21 @@ public class R<T> implements Serializable {
         return new R(MSG, SUCCESS);
     }
 
+    public static R success(String msg){
+        return new R(msg, SUCCESS);
+    }
+
+    public  R success(T data){
+        return new R(SUCCESS,data);
+    }
+
     public R error() {
         return new R(msg, FAIL);
     }
 
-    public R error(String msg) {
+    public static R error(String msg) {
         return new R(msg, FAIL);
     }
+
+
 }

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 @Slf4j
-public class RepeatSubmitAspectj {
+public class RepeatSubmitAop {
 
     @Resource
     private RedissonUtil redissonUtil;

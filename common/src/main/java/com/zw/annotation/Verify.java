@@ -1,4 +1,4 @@
-package com.zw.deagle.annoation;
+package com.zw.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

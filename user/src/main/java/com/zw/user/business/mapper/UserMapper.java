@@ -1,4 +1,4 @@
-package com.zw.auth.mapper;
+package com.zw.user.business.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zw.auth.entity.User;

@@ -1,7 +1,7 @@
-package com.chinamobile.cmss.cpms.common.auth.handler;
+package com.zw.auth.security.handler;
 
-import com.chinamobile.cmss.cpms.common.utils.response.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zw.response.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 
@@ -32,7 +32,7 @@ public class ClientLogoutSuccessHandler implements org.springframework.security.
             throws IOException {
         log.info("退出成功");
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(this.objectMapper.writeValueAsString(ResponseUtil.wrapSuccess("退出成功")));
+        response.getWriter().write(this.objectMapper.writeValueAsString(R.success()));
     }
 
 }

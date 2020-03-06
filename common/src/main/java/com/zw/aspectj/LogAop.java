@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @Aspect
 @Slf4j
-public class LogAspectJ {
+public class LogAop {
 
     @Pointcut("@annotation(log)")
     public void logPointCut(Log log) {

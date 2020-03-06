@@ -1,20 +1,9 @@
-/*
- * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2019
- *
- * The copyright to the computer program(s) herein is the property of
- * CMSS Co.,Ltd. The programs may be used and/or copied only with written
- * permission from CMSS Co.,Ltd. or in accordance with the terms and conditions
- * stipulated in the agreement/contract under which the program(s) have been
- * supplied.
- */
 
-package com.chinamobile.cmss.cpms.common.utils.http;
 
-import com.chinamobile.cmss.cpms.common.base.constant.GlobalSecurityConstant;
-import com.chinamobile.cmss.cpms.common.base.constant.SystemConstant;
-import com.chinamobile.cmss.cpms.common.base.exception.BusinessException;
-import com.chinamobile.cmss.cpms.common.security.dto.LoginAuthDto;
-import com.chinamobile.cmss.cpms.common.utils.ThreadLocalMap;
+package com.zw.util;
+
+import com.zw.constant.SystemConstant;
+import com.zw.exception.BusinessException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,19 +32,19 @@ public class HttpRequestUtil {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 
-    /**
-     * Gets login user.
-     *
-     * @return the login user
-     */
-    public static LoginAuthDto getLoginUser() {
-        final LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalSecurityConstant.TOKEN_AUTH_DTO);
-        if (loginAuthDto == null) {
-            throw new BusinessException();
-        }
-        return loginAuthDto;
-
-    }
+//    /**
+//     * Gets login user.
+//     *
+//     * @return the login user
+//     */
+//    public static LoginAuthDto getLoginUser() {
+//        final LoginAuthDto loginAuthDto = (LoginAuthDto) ThreadLocalMap.get(GlobalSecurityConstant.TOKEN_AUTH_DTO);
+//        if (loginAuthDto == null) {
+//            throw new BusinessException();
+//        }
+//        return loginAuthDto;
+//
+//    }
 
     /**
      * Gets auth header.
@@ -67,7 +56,7 @@ public class HttpRequestUtil {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.isEmpty(authHeader)) {
-            throw new BusinessException();
+            throw new BusinessException("权限异常");
         }
         return authHeader;
     }

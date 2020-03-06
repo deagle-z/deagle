@@ -1,7 +1,7 @@
-package com.chinamobile.cmss.cpms.common.auth.config;
+package com.zw.auth.security.authentication;
 
-import com.chinamobile.cmss.cpms.common.auth.filter.RestAuthenticationFilter;
-import com.chinamobile.cmss.cpms.common.auth.handler.ClientLogoutSuccessHandler;
+import com.zw.auth.security.config.CustomPasswordEncoder;
+import com.zw.auth.security.handler.ClientLogoutSuccessHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,12 +47,12 @@ public class AuthenticationBeanConfig {
         return new ClientLogoutSuccessHandler();
     }
 
-    @Bean
-    public RestAuthenticationFilter restAuthenticationFilter() {
-        final RestAuthenticationFilter filter = new RestAuthenticationFilter();
-        filter.setAuthenticationSuccessHandler(this.authenticationSuccessHandler);
-        filter.setAuthenticationFailureHandler(this.authenticationFailureHandler);
-        filter.setAuthenticationManager(this.authenticationManager);
-        return filter;
-    }
+//    @Bean
+//    public RestAuthenticationFilter restAuthenticationFilter() {
+//        final RestAuthenticationFilter filter = new RestAuthenticationFilter();
+//        filter.setAuthenticationSuccessHandler(this.authenticationSuccessHandler);
+//        filter.setAuthenticationFailureHandler(this.authenticationFailureHandler);
+//        filter.setAuthenticationManager(this.authenticationManager);
+//        return filter;
+//    }
 }

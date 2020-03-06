@@ -1,6 +1,5 @@
-package com.zw.entity;
+package com.zw.base.entity;
 
-import com.zw.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseEntity implements UserDetails{
+public class SecurityDetail extends BaseEntity implements UserDetails{
     public static final String ENABLE = "enable";
 
     private String username;

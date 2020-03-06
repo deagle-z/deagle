@@ -1,17 +1,9 @@
-/*
- * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2019
- *
- * The copyright to the computer program(s) herein is the property of
- * CMSS Co.,Ltd. The programs may be used and/or copied only with written
- * permission from CMSS Co.,Ltd. or in accordance with the terms and conditions
- * stipulated in the agreement/contract under which the program(s) have been
- * supplied.
- */
+
 
 package com.zw.auth.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.tomcat.util.http.ResponseUtil;
+import com.zw.response.R;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
@@ -24,11 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Create by Tianhaobing ON 2019/3/26
- */
+
 @Component("cpmsAuthenticationFailureHandler")
-public class CpmsAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class CustomerAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Resource
     private ObjectMapper objectMapper;
@@ -54,11 +44,9 @@ public class CpmsAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setContentType("application/json;charset=UTF-8");
         if (exception instanceof InsufficientAuthenticationException){
-            response.getWriter().write(objectMapper.writeValueAsString(ResponseUtil.wrapException(ExceptionEnum.USER_AUTH_CODE_ERROR.getCode(),
-                    ExceptionEnum.USER_AUTH_CODE_ERROR.getMessage())));
+            response.getWriter().write(objectMapper.writeValueAsString(new R(500,"登录失败")));
         }else {
-            response.getWriter().write(objectMapper.writeValueAsString(ResponseUtil.wrapException(ExceptionEnum.USER_AUTH_CREDENTIAL_ERROR.getCode(),
-                    ExceptionEnum.USER_AUTH_CREDENTIAL_ERROR.getMessage())));
+            response.getWriter().write(objectMapper.writeValueAsString(new R(500,"权限认证失败")));
         }
 
     }

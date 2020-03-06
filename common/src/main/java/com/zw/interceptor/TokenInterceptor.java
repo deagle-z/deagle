@@ -1,23 +1,12 @@
-/*
- * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2019
- *
- * The copyright to the computer program(s) herein is the property of
- * CMSS Co.,Ltd. The programs may be used and/or copied only with written
- * permission from CMSS Co.,Ltd. or in accordance with the terms and conditions
- * stipulated in the agreement/contract under which the program(s) have been
- * supplied.
- */
 
-package com.chinamobile.cmss.cpms.common.security.interceptor;
 
-import com.chinamobile.cmss.cpms.common.base.constant.GlobalSecurityConstant;
-import com.chinamobile.cmss.cpms.common.security.annotation.NoNeedAuthentication;
-import com.chinamobile.cmss.cpms.common.security.dto.LoginAuthDto;
-import com.chinamobile.cmss.cpms.common.utils.ThreadLocalMap;
-import com.chinamobile.cmss.cpms.common.utils.redis.RedisKeyUtil;
+package com.zw.interceptor;
+
+import com.zw.annotation.NoNeedAuthentication;
+import com.zw.base.dto.LoginAuthDto;
+import com.zw.util.ThreadLocalMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -32,16 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-/**
- * Create by Tianhaobing ON 2019/2/11
- */
 @Slf4j
 @Component
-@SuppressWarnings("PMD.CyclomaticComplexity")
 public class TokenInterceptor implements HandlerInterceptor {
 
-    @Value("${cpms.oauth2.jwtSigningKey}")
-    private String jwtSigningKey;
+    private static final String ACCESS_TOKEN = "deagle:token:accessToken";
+
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -121,20 +106,20 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         if (this.isHaveAccess(handler)) {
-            log.info("<== preHandle - 不需要认证注解不走认证.  token={}");
+            log.info("<== preHandle - 不需要认证注解不走认证");
             return true;
         }
 
         final String token = StringUtils.substringAfter(request.getHeader(HttpHeaders.AUTHORIZATION), "Bearer ");
-        // log.info("<== preHandle - 权限拦截器. token={}", token);
+         log.info("<== preHandle - 权限拦截器. token={}", token);
         final LoginAuthDto loginUser = (LoginAuthDto) this.redisTemplate.opsForValue()
-                .get(RedisKeyUtil.getAccessTokenKey(token));
+                .get(ACCESS_TOKEN + ":" + token);
         if (loginUser == null) {
             log.error("获取用户信息失败, 不允许操作");
             return false;
         }
         log.info("<== preHandle - 权限拦截器.  loginUser={}", loginUser.getUserName());
-        ThreadLocalMap.put(GlobalSecurityConstant.TOKEN_AUTH_DTO, loginUser);
+        ThreadLocalMap.put("login_account_info", loginUser);
         return true;
     }
 

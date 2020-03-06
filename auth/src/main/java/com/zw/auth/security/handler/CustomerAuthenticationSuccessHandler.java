@@ -1,70 +1,52 @@
-/*
- * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2019
- *
- * The copyright to the computer program(s) herein is the property of
- * CMSS Co.,Ltd. The programs may be used and/or copied only with written
- * permission from CMSS Co.,Ltd. or in accordance with the terms and conditions
- * stipulated in the agreement/contract under which the program(s) have been
- * supplied.
- */
-
-package com.chinamobile.cmss.cpms.common.auth.handler;
 
 
-import com.chinamobile.cmss.cpms.common.security.auth.config.SecurityUser;
-import com.chinamobile.cmss.cpms.common.security.dto.LoginAuthDto;
-import com.chinamobile.cmss.cpms.common.security.dto.LoginMenuDto;
-import com.chinamobile.cmss.cpms.common.security.properties.OAuth2ClientProperties;
-import com.chinamobile.cmss.cpms.common.security.properties.SecurityProperties;
-import com.chinamobile.cmss.cpms.common.utils.http.HttpRequestUtil;
-import com.chinamobile.cmss.cpms.common.utils.redis.RedisKeyUtil;
-import com.chinamobile.cmss.cpms.common.utils.response.ResponseUtil;
+package com.zw.auth.security.handler;
+
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zw.base.dto.LoginAuthDto;
+import com.zw.base.entity.SecurityDetail;
+import com.zw.constant.RedisKeyConstant;
+import com.zw.response.R;
+import com.zw.security.properties.OAuth2ClientProperties;
+import com.zw.security.properties.SecurityProperties;
+import com.zw.util.HttpRequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 
 /**
- * Create by Tianhaobing ON 2019/3/25
+ * 登陆成功处理器
  */
 @Slf4j
 @Component("cpmsAuthenticationSuccessHandler")
-public class CpmsAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class CustomerAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Autowired
+    @Resource
     private SecurityProperties securityProperties;
 
     @Resource
     private ObjectMapper objectMapper;
+
     @Resource
     private ClientDetailsService clientDetailsService;
 
@@ -112,71 +94,71 @@ public class CpmsAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         final OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
         final OAuth2AccessToken token = this.authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
-        final SecurityUser principal = (SecurityUser) authentication.getPrincipal();
+        final SecurityDetail principal = (SecurityDetail) authentication.getPrincipal();
         final LoginAuthDto authDto = new LoginAuthDto();
         //把登陆菜单信息变成树形结构保存在登陆用户信息中
-        final List<LoginMenuDto> menuDtos = principal.getMenuDtos();
-        if (!CollectionUtils.isEmpty(menuDtos)) {
-            //hu
-            final List<LoginMenuDto> menuDtoList = this.setMenusDto(menuDtos);
-            //存放组织树
-            authDto.setMenuDtos(menuDtoList);
-        }
-        authDto.setUserId(principal.getUserId());
-        authDto.setLoginName(principal.getUid());
-        authDto.setUserName(principal.getUserName());
-        authDto.setCompanyCode(principal.getCompanyCode());
-        authDto.setCompanyName(principal.getCompanyName());
-        authDto.setPositionId(principal.getPositionId());
-        authDto.setAreaId(principal.getAreaId());
-        authDto.setAreaName(principal.getAreaName());
-        authDto.setGroupId(principal.getOrgId());
-        authDto.setOrgCode(principal.getOrgCode());
-        authDto.setGroupName(principal.getOrgName());
-        authDto.setCompanyCode(principal.getCompanyCode());
-        authDto.setCompanyName(principal.getCompanyName());
-        authDto.setSecondOrgCode(principal.getSecondOrgCode());
-        authDto.setSecondOrgName(principal.getSecondOrgName());
-        authDto.setFunc(principal.getFunc());
-        authDto.setPositionId(principal.getPositionId());
-        authDto.setRoleDtos(principal.getRoleDtos());
-
-        authDto.setPositionDtos(principal.getPositionDtos());
-        //uacUserService.handlerLoginData(token, principal, request);
+//        final List<LoginMenuDto> menuDtos = principal.getMenuDtos();
+//        if (!CollectionUtils.isEmpty(menuDtos)) {
+//            //hu
+//            final List<LoginMenuDto> menuDtoList = this.setMenusDto(menuDtos);
+//            //存放组织树
+//            authDto.setMenuDtos(menuDtoList);
+//        }
+//        authDto.setUserId(principal.getUserId());
+//        authDto.setLoginName(principal.getUid());
+//        authDto.setUserName(principal.getUserName());
+//        authDto.setCompanyCode(principal.getCompanyCode());
+//        authDto.setCompanyName(principal.getCompanyName());
+//        authDto.setPositionId(principal.getPositionId());
+//        authDto.setAreaId(principal.getAreaId());
+//        authDto.setAreaName(principal.getAreaName());
+//        authDto.setGroupId(principal.getOrgId());
+//        authDto.setOrgCode(principal.getOrgCode());
+//        authDto.setGroupName(principal.getOrgName());
+//        authDto.setCompanyCode(principal.getCompanyCode());
+//        authDto.setCompanyName(principal.getCompanyName());
+//        authDto.setSecondOrgCode(principal.getSecondOrgCode());
+//        authDto.setSecondOrgName(principal.getSecondOrgName());
+//        authDto.setFunc(principal.getFunc());
+//        authDto.setPositionId(principal.getPositionId());
+//        authDto.setRoleDtos(principal.getRoleDtos());
+//
+//        authDto.setPositionDtos(principal.getPositionDtos());
+//        //uacUserService.handlerLoginData(token, principal, request);
         final OAuth2ClientProperties[] clients = this.securityProperties.getOauth2().getClients();
         final int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
         //final int refreshTokenValiditySeconds = clients[0].getRefreshTokenValiditySeconds();
         //System.out.println(authDto);
-        this.redisTemplate.opsForValue().set(RedisKeyUtil.getAccessTokenKey(token.getValue()), authDto, accessTokenValidateSeconds, TimeUnit.SECONDS);
+        this.redisTemplate.opsForValue().set(RedisKeyConstant.TOKEN_KEY+token.getValue(), authDto, accessTokenValidateSeconds, TimeUnit.SECONDS);
         log.info("用户【 {} 】记录登录日志", principal.getUsername());
 
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write((this.objectMapper.writeValueAsString(ResponseUtil.wrapSuccess(token))));
+        response.getWriter().write((this.objectMapper.writeValueAsString(new R().success(token))));
 
     }
 
-    private List<LoginMenuDto> setMenusDto(final List<LoginMenuDto> menuDtos) {
-        //多级菜单
-        List<LoginMenuDto> firstLevel = menuDtos.stream().filter(m -> m.getParentId().equals(0L)).filter(m -> m.getDeletedFlag() == 0).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(firstLevel)) {
-
-            firstLevel = new ArrayList<>(new LinkedHashSet<>(firstLevel));
-            firstLevel.parallelStream().forEach(p -> {
-                this.setChild(p, menuDtos);
-            });
-        }
-        return firstLevel;
-    }
-
-    private void setChild(final LoginMenuDto p, final List<LoginMenuDto> menuDtos) {
-        final List<LoginMenuDto> child = menuDtos.parallelStream().filter(a -> a.getParentId().equals(p.getMenuId())).collect(Collectors.toList());
-        p.setChild(child);
-        if (!CollectionUtils.isEmpty(child)) {
-            child.parallelStream().forEach(c -> {
-                //递归子元素
-                this.setChild(c, menuDtos);
-            });
-        }
-    }
+//    private List<LoginMenuDto> setMenusDto(final List<LoginMenuDto> menuDtos) {
+//        //多级菜单
+//        List<LoginMenuDto> firstLevel = menuDtos.stream().filter(m -> m.getParentId().equals(0L)).filter(m -> m.getDeletedFlag() == 0).collect(Collectors.toList());
+//        if (!CollectionUtils.isEmpty(firstLevel)) {
+//
+//            firstLevel = new ArrayList<>(new LinkedHashSet<>(firstLevel));
+//            firstLevel.parallelStream().forEach(p -> {
+//                this.setChild(p, menuDtos);
+//            });
+//        }
+//        return firstLevel;
+//    }
+//
+//    private void setChild(final LoginMenuDto p, final List<LoginMenuDto> menuDtos) {
+//        final List<LoginMenuDto> child = menuDtos.parallelStream().filter(a -> a.getParentId().equals(p.getMenuId())).collect(Collectors.toList());
+//        p.setChild(child);
+//        if (!CollectionUtils.isEmpty(child)) {
+//            child.parallelStream().forEach(c -> {
+//                //递归子元素
+//                this.setChild(c, menuDtos);
+//            });
+//        }
+//    }
 
 }

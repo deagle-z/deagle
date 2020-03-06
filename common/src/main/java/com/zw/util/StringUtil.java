@@ -1,12 +1,286 @@
-package com.hisum.hd.core.common.util;
+package com.zw.util;
 
-import com.hisum.framework.common.util.base.StringUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.util.NumberUtils;
 
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringUtil extends StringUtils{
+public class StringUtil {
+
+    public static String changeToFull(String str) {
+        String source = "1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_=+\\|[];:'\",<.>/?";
+        String[] decode = new String[]{"１", "２", "３", "４", "５", "６", "７", "８", "９", "０", "！", "＠", "＃", "＄", "％", "︿", "＆", "＊", "（", "）", "ａ", "ｂ", "ｃ", "ｄ", "ｅ", "ｆ", "ｇ", "ｈ", "ｉ", "ｊ", "ｋ", "ｌ", "ｍ", "ｎ", "ｏ", "ｐ", "ｑ", "ｒ", "ｓ", "ｔ", "ｕ", "ｖ", "ｗ", "ｘ", "ｙ", "ｚ", "Ａ", "Ｂ", "Ｃ", "Ｄ", "Ｅ", "Ｆ", "Ｇ", "Ｈ", "Ｉ", "Ｊ", "Ｋ", "Ｌ", "Ｍ", "Ｎ", "Ｏ", "Ｐ", "Ｑ", "Ｒ", "Ｓ", "Ｔ", "Ｕ", "Ｖ", "Ｗ", "Ｘ", "Ｙ", "Ｚ", "－", "＿", "＝", "＋", "＼", "｜", "【", "】", "；", "：", "'", "\"", "，", "〈", "。", "〉", "／", "？"};
+        String result = "";
+
+        for(int i = 0; i < str.length(); ++i) {
+            int pos = source.indexOf(str.charAt(i));
+            if (pos != -1) {
+                result = result + decode[pos];
+            } else {
+                result = result + str.charAt(i);
+            }
+        }
+
+        return result;
+    }
+
+    public static String unicodeEscaped(char ch) {
+        if (ch < 16) {
+            return "\\u000" + Integer.toHexString(ch);
+        } else if (ch < 256) {
+            return "\\u00" + Integer.toHexString(ch);
+        } else {
+            return ch < 4096 ? "\\u0" + Integer.toHexString(ch) : "\\u" + Integer.toHexString(ch);
+        }
+    }
+
+    public static String toString(Object object, String nullStr) {
+        return object == null ? nullStr : object.toString();
+    }
+
+    public static String repeatString(String value, int count) {
+        if (value != null && !"".equals(value) && count > 1) {
+            int length = value.length();
+            if (length == 1) {
+                return repeatChar(value.charAt(0), count);
+            } else {
+                int outputLength = length * count;
+                switch(length) {
+                    case 1:
+                        return repeatChar(value.charAt(0), count);
+                    case 2:
+                        char ch0 = value.charAt(0);
+                        char ch1 = value.charAt(1);
+                        char[] output2 = new char[outputLength];
+
+                        for(int i = count * 2 - 2; i >= 0; --i) {
+                            output2[i] = ch0;
+                            output2[i + 1] = ch1;
+                            --i;
+                        }
+
+                        return new String(output2);
+                    default:
+                        StringBuilder buf = new StringBuilder(outputLength);
+
+                        for(int i = 0; i < count; ++i) {
+                            buf.append(value);
+                        }
+
+                        return buf.toString();
+                }
+            }
+        } else {
+            return value;
+        }
+    }
+
+    public static String repeatChar(char ch, int count) {
+        char[] buf = new char[count];
+
+        for(int i = count - 1; i >= 0; --i) {
+            buf[i] = ch;
+        }
+
+        return new String(buf);
+    }
+
+    public static boolean isAllLowerCase(String value) {
+        if (value != null && !"".equals(value)) {
+            for(int i = 0; i < value.length(); ++i) {
+                if (!Character.isLowerCase(value.charAt(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isAllUpperCase(String value) {
+        if (value != null && !"".equals(value)) {
+            for(int i = 0; i < value.length(); ++i) {
+                if (!Character.isUpperCase(value.charAt(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static String reverse(String value) {
+        return value == null ? null : (new StringBuffer(value)).reverse().toString();
+    }
+
+    public static String subString(String resourceString, int length) {
+        String resultString = "";
+        if (resourceString != null && !"".equals(resourceString) && length >= 1) {
+            if (resourceString.length() < length) {
+                return resourceString;
+            } else {
+                char[] chr = resourceString.toCharArray();
+                int strNum = 0;
+                int strGBKNum = 0;
+                boolean isHaveDot = false;
+
+                for(int i = 0; i < resourceString.length(); ++i) {
+                    if (chr[i] >= 161) {
+                        strNum += 2;
+                        ++strGBKNum;
+                    } else {
+                        ++strNum;
+                    }
+
+                    if (strNum == length || strNum == length + 1) {
+                        if (i + 1 < resourceString.length()) {
+                            isHaveDot = true;
+                        }
+                        break;
+                    }
+                }
+
+                resultString = resourceString.substring(0, strNum - strGBKNum);
+                if (isHaveDot) {
+                    resultString = resultString + "...";
+                }
+
+                return resultString;
+            }
+        } else {
+            return resourceString;
+        }
+    }
+
+    public static String subHTMLString(String htmlString, int length) {
+        return subString(delHTMLTag(htmlString), length);
+    }
+
+    public static String delHTMLTag(String htmlStr) {
+        String regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+        String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+        String regEx_html = "<[^>]+>";
+        String regEx_space = "\\s*|\t|\r|\n";
+        Pattern p_script = Pattern.compile(regEx_script, 2);
+        Matcher m_script = p_script.matcher(htmlStr);
+        htmlStr = m_script.replaceAll("");
+        Pattern p_style = Pattern.compile(regEx_style, 2);
+        Matcher m_style = p_style.matcher(htmlStr);
+        htmlStr = m_style.replaceAll("");
+        Pattern p_html = Pattern.compile(regEx_html, 2);
+        Matcher m_html = p_html.matcher(htmlStr);
+        htmlStr = m_html.replaceAll("");
+        Pattern p_space = Pattern.compile(regEx_space, 2);
+        Matcher m_space = p_space.matcher(htmlStr);
+        htmlStr = m_space.replaceAll("");
+        return htmlStr.trim();
+    }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
+    }
+
+    public static boolean isAnyEmpty(String... strs) {
+        if (ArrayUtils.isEmpty(strs)) {
+            return true;
+        } else {
+            String[] var1 = strs;
+            int var2 = strs.length;
+
+            for(int var3 = 0; var3 < var2; ++var3) {
+                String str = var1[var3];
+                if (isEmpty(str)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public static boolean isAllEmpty(String... strs) {
+        if (ArrayUtils.isEmpty(strs)) {
+            return true;
+        } else {
+            String[] var1 = strs;
+            int var2 = strs.length;
+
+            for(int var3 = 0; var3 < var2; ++var3) {
+                String str = var1[var3];
+                if (isNotEmpty(str)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
+    }
+
+    public static boolean isAllNotEmpty(String... strs) {
+        if (ArrayUtils.isEmpty(strs)) {
+            return false;
+        } else {
+            String[] var1 = strs;
+            int var2 = strs.length;
+
+            for(int var3 = 0; var3 < var2; ++var3) {
+                String str = var1[var3];
+                if (isEmpty(str)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public static String getNumber(String str) {
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
+    }
+
+    public static boolean isMobilePhone(String value) {
+        String mobilePhonePattern = "^((1[0-9]))\\d{9}$";
+        Pattern p = Pattern.compile(mobilePhonePattern);
+        Matcher m = p.matcher(value);
+        return m.matches();
+    }
+
+    public static boolean isNumber(String value) {
+        String mobilePhonePattern = "^[1-9]\\d*$";
+        Pattern p = Pattern.compile(mobilePhonePattern);
+        Matcher m = p.matcher(value);
+        return m.matches();
+    }
+
+    public static boolean equals(String text1, String text2) {
+        if (text1 == null) {
+            text1 = "";
+        }
+
+        if (text2 == null) {
+            text2 = "";
+        }
+
+        return text1.trim().equalsIgnoreCase(text2.trim());
+    }
+
+    public static int parseInteger(String value) {
+        return NumberUtils.parseNumber(value, Number.class).intValue();
+    }
+
 
     /**
      * 隐私处理字符串
