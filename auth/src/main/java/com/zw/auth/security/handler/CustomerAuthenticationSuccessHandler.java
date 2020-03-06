@@ -1,0 +1,182 @@
+/*
+ * COPYRIGHT China Mobile (SuZhou) Software Technology Co.,Ltd. 2019
+ *
+ * The copyright to the computer program(s) herein is the property of
+ * CMSS Co.,Ltd. The programs may be used and/or copied only with written
+ * permission from CMSS Co.,Ltd. or in accordance with the terms and conditions
+ * stipulated in the agreement/contract under which the program(s) have been
+ * supplied.
+ */
+
+package com.chinamobile.cmss.cpms.common.auth.handler;
+
+
+import com.chinamobile.cmss.cpms.common.security.auth.config.SecurityUser;
+import com.chinamobile.cmss.cpms.common.security.dto.LoginAuthDto;
+import com.chinamobile.cmss.cpms.common.security.dto.LoginMenuDto;
+import com.chinamobile.cmss.cpms.common.security.properties.OAuth2ClientProperties;
+import com.chinamobile.cmss.cpms.common.security.properties.SecurityProperties;
+import com.chinamobile.cmss.cpms.common.utils.http.HttpRequestUtil;
+import com.chinamobile.cmss.cpms.common.utils.redis.RedisKeyUtil;
+import com.chinamobile.cmss.cpms.common.utils.response.ResponseUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+
+/**
+ * Create by Tianhaobing ON 2019/3/25
+ */
+@Slf4j
+@Component("cpmsAuthenticationSuccessHandler")
+public class CpmsAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private SecurityProperties securityProperties;
+
+    @Resource
+    private ObjectMapper objectMapper;
+    @Resource
+    private ClientDetailsService clientDetailsService;
+
+    @Resource
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    private static final String BEARER_TOKEN_TYPE = "Basic ";
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
+                                        final Authentication authentication) throws IOException {
+        log.info("登录成功");
+        final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (header == null || !header.startsWith(BEARER_TOKEN_TYPE)) {
+            throw new UnapprovedClientAuthenticationException("请求头中无client信息");
+        }
+
+        final String[] tokens = HttpRequestUtil.extractAndDecodeHeader(header);
+        assert tokens.length == 2;
+
+        final String clientId = tokens[0];
+        final String clientSecret = tokens[1];
+
+        final ClientDetails clientDetails = this.clientDetailsService.loadClientByClientId(clientId);
+
+        /*if (clientDetails == null) {
+            throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
+        } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
+               throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
+        }*/
+        if (clientDetails == null) {
+            throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
+        } else if (!this.passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
+            throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
+        }
+
+        final TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
+
+        final OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+
+        final OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+
+        final OAuth2AccessToken token = this.authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        final SecurityUser principal = (SecurityUser) authentication.getPrincipal();
+        final LoginAuthDto authDto = new LoginAuthDto();
+        //把登陆菜单信息变成树形结构保存在登陆用户信息中
+        final List<LoginMenuDto> menuDtos = principal.getMenuDtos();
+        if (!CollectionUtils.isEmpty(menuDtos)) {
+            //hu
+            final List<LoginMenuDto> menuDtoList = this.setMenusDto(menuDtos);
+            //存放组织树
+            authDto.setMenuDtos(menuDtoList);
+        }
+        authDto.setUserId(principal.getUserId());
+        authDto.setLoginName(principal.getUid());
+        authDto.setUserName(principal.getUserName());
+        authDto.setCompanyCode(principal.getCompanyCode());
+        authDto.setCompanyName(principal.getCompanyName());
+        authDto.setPositionId(principal.getPositionId());
+        authDto.setAreaId(principal.getAreaId());
+        authDto.setAreaName(principal.getAreaName());
+        authDto.setGroupId(principal.getOrgId());
+        authDto.setOrgCode(principal.getOrgCode());
+        authDto.setGroupName(principal.getOrgName());
+        authDto.setCompanyCode(principal.getCompanyCode());
+        authDto.setCompanyName(principal.getCompanyName());
+        authDto.setSecondOrgCode(principal.getSecondOrgCode());
+        authDto.setSecondOrgName(principal.getSecondOrgName());
+        authDto.setFunc(principal.getFunc());
+        authDto.setPositionId(principal.getPositionId());
+        authDto.setRoleDtos(principal.getRoleDtos());
+
+        authDto.setPositionDtos(principal.getPositionDtos());
+        //uacUserService.handlerLoginData(token, principal, request);
+        final OAuth2ClientProperties[] clients = this.securityProperties.getOauth2().getClients();
+        final int accessTokenValidateSeconds = clients[0].getAccessTokenValidateSeconds();
+        //final int refreshTokenValiditySeconds = clients[0].getRefreshTokenValiditySeconds();
+        //System.out.println(authDto);
+        this.redisTemplate.opsForValue().set(RedisKeyUtil.getAccessTokenKey(token.getValue()), authDto, accessTokenValidateSeconds, TimeUnit.SECONDS);
+        log.info("用户【 {} 】记录登录日志", principal.getUsername());
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write((this.objectMapper.writeValueAsString(ResponseUtil.wrapSuccess(token))));
+
+    }
+
+    private List<LoginMenuDto> setMenusDto(final List<LoginMenuDto> menuDtos) {
+        //多级菜单
+        List<LoginMenuDto> firstLevel = menuDtos.stream().filter(m -> m.getParentId().equals(0L)).filter(m -> m.getDeletedFlag() == 0).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(firstLevel)) {
+
+            firstLevel = new ArrayList<>(new LinkedHashSet<>(firstLevel));
+            firstLevel.parallelStream().forEach(p -> {
+                this.setChild(p, menuDtos);
+            });
+        }
+        return firstLevel;
+    }
+
+    private void setChild(final LoginMenuDto p, final List<LoginMenuDto> menuDtos) {
+        final List<LoginMenuDto> child = menuDtos.parallelStream().filter(a -> a.getParentId().equals(p.getMenuId())).collect(Collectors.toList());
+        p.setChild(child);
+        if (!CollectionUtils.isEmpty(child)) {
+            child.parallelStream().forEach(c -> {
+                //递归子元素
+                this.setChild(c, menuDtos);
+            });
+        }
+    }
+
+}
