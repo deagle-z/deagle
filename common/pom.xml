@@ -119,6 +119,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.3.1</version>
+            <scope>compile</scope>
+        </dependency>
         <!--        swagger         -->
     </dependencies>
 </project>
