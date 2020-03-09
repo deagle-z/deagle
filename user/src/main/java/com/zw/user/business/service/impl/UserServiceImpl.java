@@ -2,7 +2,9 @@ package com.zw.user.business.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zw.auth.business.service.UserService;
+import com.zw.user.business.entity.User;
+import com.zw.user.business.mapper.UserMapper;
+import com.zw.user.business.service.UserService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,5 +13,5 @@ import org.springframework.stereotype.Service;
   * @author zw
 */
 @Service
-public class UserServiceImpl extends ServiceImpl<com.zw.auth.mapper.UserMapper, com.zw.auth.entity.User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 }

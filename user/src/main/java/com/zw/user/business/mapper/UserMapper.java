@@ -1,7 +1,7 @@
 package com.zw.user.business.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zw.auth.entity.User;
+import com.zw.user.business.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 
