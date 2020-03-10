@@ -1,0 +1,26 @@
+server:
+  port: 2001
+spring:
+  application:
+    name: storage
+      #  cloud:
+      #    config:
+    #      label: dev
+  #      profile: dev
+  #      discovery:
+  #        enabled: true
+  #        service-id: config
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 #心跳间隔时间 生产默认30
+    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
+    prefer-ip-address: false # 默认false 设置为true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
