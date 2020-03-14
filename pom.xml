@@ -15,6 +15,7 @@
         <module>auth</module>
         <module>user</module>
         <module>seata</module>
+<!--        <module>nacos</module>-->
     </modules>
 <!--    <name>deagle</name>-->
 <!--    <description>practice</description>-->
