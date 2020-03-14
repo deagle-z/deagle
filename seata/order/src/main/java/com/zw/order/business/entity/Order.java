@@ -1,10 +1,9 @@
 package com.zw.order.business.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("order_tbl")
+//@TableName("order_tbl")
 public class Order {
     private Long id;
 
