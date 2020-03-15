@@ -29,6 +29,7 @@ public class AuthClientDetailsService implements ClientDetailsService {
 
     /**
      * Init.
+     * 将客户端的信息从配置文件中读出来 存储到内存中去
      */
     @PostConstruct
     public void init() {
@@ -36,12 +37,13 @@ public class AuthClientDetailsService implements ClientDetailsService {
         final InMemoryClientDetailsServiceBuilder builder = new InMemoryClientDetailsServiceBuilder();
         if (ArrayUtils.isNotEmpty(securityProperties.getOauth2().getClients())) {
             for (final OAuth2ClientProperties client : securityProperties.getOauth2().getClients()) {
-                builder.withClient(client.getClientId())
-                        .secret(client.getClientSecret())
+                builder.withClient(client.getClientId()) //clientId
+                        .secret(client.getClientSecret()) //client密码
                         //.secret(passwordEncoder.encode(client.getClientSecret()))
-                        .authorizedGrantTypes("refresh_token", "password", "client_credentials")
-                        .accessTokenValiditySeconds(client.getAccessTokenValidateSeconds())
-                        .refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds()).scopes(client.getScope());
+                        .authorizedGrantTypes("refresh_token", "password", "client_credentials") //客户端的授权类型authorized_code : 授权码（短信验证码）方式
+                        .accessTokenValiditySeconds(client.getAccessTokenValidateSeconds()) //token有效期
+                        .refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds()) //刷新token使劲按
+                        .scopes(client.getScope()); //范围
             }
         }
         try {

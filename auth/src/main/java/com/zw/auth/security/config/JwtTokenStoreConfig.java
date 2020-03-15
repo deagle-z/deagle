@@ -57,12 +57,12 @@ public class JwtTokenStoreConfig {
         return new TokenJwtEnhancer();
     }
 
-    @Bean
+//    @Bean
 //    @ConditionalOnProperty(prefix = "whale.security.oauth2",name = "storeType",havingValue = "redis",matchIfMissing = false)
-    public TokenStore tokenStore(){
-        //prefix为配置文件中的前缀,
-        //name为配置的名字
-        //havingValue是与配置的值对比值,当两个值相同返回true,配置类生效.
-        return new RedisTokenStore(redisConnectionFactory);
-    }
+//    public TokenStore tokenStore(){
+//        //prefix为配置文件中的前缀,
+//        //name为配置的名字
+//        //havingValue是与配置的值对比值,当两个值相同返回true,配置类生效.
+//        return new RedisTokenStore(redisConnectionFactory);
+//    }
 }

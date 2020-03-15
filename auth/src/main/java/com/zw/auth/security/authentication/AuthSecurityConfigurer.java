@@ -4,6 +4,7 @@ import com.zw.auth.security.config.CustomPasswordEncoder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,10 +37,15 @@ public class AuthSecurityConfigurer extends WebSecurityConfigurerAdapter {
         return new CustomPasswordEncoder();
     }
 
+    /**
+     * 注入 AuthenticationManager 用于密码模式
+     *
+     * @author zw
+     * @date 2020/3/7
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-
         return super.authenticationManagerBean();
     }
 
@@ -47,7 +53,8 @@ public class AuthSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }*/
+    }
+    */
 
 //    @Bean
 //    public RestAuthenticationFilter restAuthenticationFilter() {
