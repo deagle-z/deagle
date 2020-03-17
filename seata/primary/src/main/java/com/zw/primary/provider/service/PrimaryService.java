@@ -1,4 +1,4 @@
-package com.zw.primary.provider.service.impl;
+package com.zw.primary.provider.service;
 
-public interface primaryService {
+public interface PrimaryService {
 }

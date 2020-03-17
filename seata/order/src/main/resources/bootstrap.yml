@@ -1,26 +1,41 @@
 server:
-  port: 2002
+  port: 1202
 spring:
   application:
-    name: order
-      #  cloud:
-      #    config:
-    #      label: dev
-  #      profile: dev
-  #      discovery:
-  #        enabled: true
-  #        service-id: config
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
-eureka:
-  client:
-    registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
-    service-url:
-      defaultZone: http://localhost:1000/eureka
-  instance:
-    lease-renewal-interval-in-seconds: 5 #心跳间隔时间 生产默认30
-    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
-    prefer-ip-address: false # 默认false 设置为true
-    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    name: primary
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        group: deagle
+        refresh-enabled: true
+        server-addr: 127.0.0.1:8848
+            server-addr: 127.0.0.1:8848
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+#        group: deagle
+  profiles:
+    active: dev
+    #        namespace: 名称空间 默认
+    #        watch-delay: 观察延迟冲 nacos获取最新的服务的延迟时间 默认30000
+    #        naming-load-cache-at-start: 服务启动时加载本地缓存
+    #        heart-beat-timeout: 心跳超时
+    #        heart-beat-interval: 心跳间隔
+    #        endpoint:  服务的域名,用于动态获取
+
+
+
+    # jekins部署
+    #  原本启动参数： --spring.profiles.active=dev
+    #  需要替换参数为：--spring.cloud.nacos.config.namespace=43cfdf88-1a5e
+dubbo:
+  #  添加以下内容 会在 nacos->服务列表和配置列表中都添加一条记录 具体原因未知
+  #  scan:
+  #    base-packages: com.zw.primary.provider
+  protocol:
+    name: dubbo
+    port: 1203
+  registry:
+    address: nacos://${spring.cloud.nacos.server-addr}
+    group: deagle
+
