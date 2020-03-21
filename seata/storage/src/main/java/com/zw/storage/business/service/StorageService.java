@@ -1,8 +1,10 @@
+
 package com.zw.storage.business.service;
 
-public interface StorageService {
-    /**
-     * 扣除存储数量
-     */
-    void deduct(String commodityCode, int count);
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.zw.storage.business.entity.StorageEntity;
+
+public interface StorageService extends IService<StorageEntity> {
+
+
 }

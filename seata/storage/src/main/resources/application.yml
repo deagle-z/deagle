@@ -27,11 +27,10 @@ spring:
       connection-properties: socketTimeout=300000;connectTimeout=100000
 redisson:
   address: redis://127.0.0.1:6379
-# seata
 seata:
-  tx-service-group: deagle_at
-  service:
-    grouplist: 127.0.0.1:8091
+  tx-service-group: deagle
+#  service:
+#    grouplist: 127.0.0.1:8091
 logging:
   level:
     io:
@@ -41,7 +40,7 @@ logging:
           persistence:
             AccountMapper: debug
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  mapper-locations: classpath*:/mapper/**Mapper.xml
   type-aliases-package: com.zw.**
   type-aliases-super-type: java.lang.Object
   type-enums-package: com.baomidou.mybatisplus.samples.quickstart.enums

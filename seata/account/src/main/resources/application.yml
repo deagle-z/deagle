@@ -28,12 +28,12 @@ spring:
 redisson:
   address: redis://127.0.0.1:6379
 # seata
-seata:
-  tx-service-group: deagle_at
-  service:
-    grouplist: 127.0.0.1:8091
-    vgroup-mapping:
-      order
+#seata:
+#  tx-service-group: deagle_at
+#  service:
+#    grouplist: 127.0.0.1:8091
+#    vgroup-mapping:
+#      order
 logging:
   level:
     io:

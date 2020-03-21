@@ -121,12 +121,6 @@
             <version>3.3.1</version>
             <scope>compile</scope>
         </dependency>
-<!--  seata  -->
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 
 </project>

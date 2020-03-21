@@ -27,10 +27,10 @@ spring:
       connection-properties: socketTimeout=300000;connectTimeout=100000
 redisson:
   address: redis://127.0.0.1:6379
-seata:
-  tx-service-group: deagle_at
-  service:
-    grouplist: 127.0.0.1:8091
+#seata:
+#  tx-service-group: deagle_at
+#  service:
+#    grouplist: 127.0.0.1:8091
 logging:
   level:
     io:

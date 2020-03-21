@@ -3,6 +3,7 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 **/src/main/**
 **/src/test/**
+**/log/
 
 ### STS ###
 .apt_generated
@@ -12,6 +13,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
 
 ### IntelliJ IDEA ###
 .idea
@@ -31,3 +33,25 @@ target/
 #.vscode/
 #/config_file/
 #/logs/
+auth/src/main/java/com/zw/auth/business/controller/
+auth/src/main/resources/mapper/
+common/src/main/resources/
+provider/consumer/src/main/java/com/zw/consumer/seata/
+provider/consumer/src/main/resources/static/
+provider/consumer/src/main/resources/templates/
+provider/produce/src/main/java/com/zw/produce/seata/
+provider/produce/src/main/resources/static/
+provider/produce/src/main/resources/templates/
+provider/provider-major/src/main/java/com/zw/provider/major/config/
+provider/provider-major/src/main/java/com/zw/provider/major/mybatis/controller/
+provider/provider-major/src/main/java/com/zw/provider/major/seata/
+provider/provider-major/src/main/resources/mapper/
+provider/provider-major/src/main/resources/static/
+provider/provider-major/src/main/resources/templates/
+seata/account/src/test/
+seata/order/src/main/java/com/zw/order/business/controller/
+seata/order/src/main/java/com/zw/order/business/mapper/
+seata/order/src/main/java/com/zw/order/config/
+seata/storage/src/main/java/com/zw/storage/business/controller/
+seata/storage/src/main/java/com/zw/storage/business/mapper/
+user/src/main/java/com/zw/user/business/controller/

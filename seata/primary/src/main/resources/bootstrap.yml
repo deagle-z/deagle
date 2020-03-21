@@ -1,5 +1,5 @@
 server:
-  port: 1200
+  port: 1202
 spring:
   application:
     name: primary
@@ -14,6 +14,7 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
         group: deagle
+        namespace: 46af61ad-d195-43d6-b021-4e96979b0053
   profiles:
     active: dev
 #        namespace: 名称空间 默认
@@ -32,10 +33,18 @@ dubbo:
 #  添加以下内容 会在 nacos->服务列表和配置列表中都添加一条记录 具体原因未知
 #  scan:
 #    base-packages: com.zw.primary.provider
-  protocol:
-    name: dubbo
-    port: 1201
+#  protocol:
+#    name: primary
+#    port: 1302
+#    heartbeat:
+  application:
+    name: dubbo-primary
   registry:
-    address: nacos://${spring.cloud.nacos.server-addr}
+    address: nacos://127.0.0.1:8848
     group: deagle
+  consumer:
+    group: deagle
+    timeout: 3000
+  config-center:
+    namespace: 46af61ad-d195-43d6-b021-4e96979b0053
 

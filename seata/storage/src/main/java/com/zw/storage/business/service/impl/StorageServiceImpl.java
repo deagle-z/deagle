@@ -1,18 +1,17 @@
+
 package com.zw.storage.business.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zw.storage.business.dao.StorageMapper;
+import com.zw.storage.business.entity.StorageEntity;
 import com.zw.storage.business.service.StorageService;
+import org.springframework.stereotype.Service;
 
-public class StorageServiceImpl implements StorageService {
 
 
-    /**
-     * 扣除存储数量
-     *
-     * @param commodityCode
-     * @param count
-     */
-    @Override
-    public void deduct(String commodityCode, int count) {
+@Service
+public class StorageServiceImpl extends ServiceImpl<StorageMapper, StorageEntity> implements StorageService {
 
-    }
+
+
 }

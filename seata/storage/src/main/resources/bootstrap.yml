@@ -1,5 +1,5 @@
 server:
-  port: 2001
+  port: 1201
 spring:
   application:
     name: storage
@@ -16,14 +16,34 @@ spring:
       max-request-size: 100MB
   cloud:
     nacos:
-      config:
-        file-extension: yaml
-        group: deagle
-        refresh-enabled: true
-        server-addr: 127.0.0.1:8848
+#      config:
+#        file-extension: yaml
+#        group: deagle
+#        refresh-enabled: true
+#        server-addr: 127.0.0.1:8848
       server-addr: 127.0.0.1:8848
       discovery:
         server-addr: 127.0.0.1:8848
         group: deagle
+        namespace: 46af61ad-d195-43d6-b021-4e96979b0053
   profiles:
     active: dev
+
+dubbo:
+  application:
+    name: dubbo-storage
+  scan:
+    base-packages: com.zw.storage.provider.service.impl
+  protocol: #协议
+    name: dubbo
+    port: 20881
+    threads: 200
+    ssl-enabled: false
+    heartbeat: 10
+  registry:
+    address: nacos://127.0.0.1:8848
+    group: deagle
+    timeout: 3000
+  provider:
+    group: deagle
+    timeout: 3000

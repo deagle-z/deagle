@@ -22,6 +22,7 @@ public class R<T> implements Serializable {
 
     private static final String MSG = "success";
 
+    public static final String FAIL_MSG = "error";
     private String msg = "success";
 
 
@@ -116,5 +117,7 @@ public class R<T> implements Serializable {
         return new R(msg, FAIL);
     }
 
-
+    public static R error(Integer code){
+        return new R("error",code);
+    }
 }
