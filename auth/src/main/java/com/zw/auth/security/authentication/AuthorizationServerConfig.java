@@ -54,10 +54,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      *
      * @param security the 用来配置令牌端点(Token Endpoint)的安全约束.
      *
-     * @throws Exception the exception
      */
     @Override
-    public void configure(final AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(final AuthorizationServerSecurityConfigurer security) {
         // 开启/oauth/token_key验证端口无权限访问
         security.tokenKeyAccess("permitAll()"); //允许所有人可以访问获取token接口
         // 开启/oauth/check_token验证端口认证权限访问

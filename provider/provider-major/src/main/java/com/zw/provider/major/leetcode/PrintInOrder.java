@@ -1,17 +1,17 @@
 package com.zw.provider.major.leetcode;
 
 /**
- * leetcode 1114. 按序打印
+ * leetcode 1114.
  *
  * @author zw
  * @date 2019/12/28
  */
 
-public class Foo {
+public class PrintInOrder {
     private boolean first_finish=false;
     private boolean second_finish=false;
 
-    public Foo() {
+    public PrintInOrder() {
 
     }
 

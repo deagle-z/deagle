@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * 配置线程池
  *
@@ -24,10 +22,5 @@ public class ThreadPool {
         // 当调度器shutdown被调用时等待当前被调度的任务完成
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
-    }
-
-    public static void main(String[] args) {
-        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap(1);
-        System.out.println(1/2);
     }
 }

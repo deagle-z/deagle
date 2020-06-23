@@ -423,9 +423,4 @@ public class StringUtil {
         return temp;
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(StringUtil.compareVersionNo("3","2.1.1"));
-    }
-
 }

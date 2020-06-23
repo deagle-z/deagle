@@ -13,9 +13,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 import javax.annotation.Resource;
 
-/**
- * Created by Tian Haobing on 2019/6/23
- */
+
 @Configuration
 public class AuthenticationBeanConfig {
     @Resource

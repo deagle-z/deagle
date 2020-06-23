@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 接口重复提交
  * 默认5秒
  * @date 2019/12/20
-  * @author zw
+ * @author zw
 */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
