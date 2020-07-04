@@ -3,10 +3,10 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/test
   datasource:
-    username: root
-    password: 123456
+    username: deagle
+    password: zhw!@#
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_seata?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://124.70.222.176:3306/db_seata?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 5
@@ -27,8 +27,8 @@ spring:
       connection-properties: socketTimeout=300000;connectTimeout=100000
 redisson:
   address: redis://127.0.0.1:6379
-seata:
-  tx-service-group: deagle
+#seata:
+#  tx-service-group: deagle
 #  service:
 #    grouplist: 127.0.0.1:8091
 logging:
@@ -59,18 +59,18 @@ mybatis-plus:
       table-underline: true
       id-type: auto
 
-ribbon:
-  readTimeout: 30000
-  socketTimeout: 30000
-  connectTimeout: 30000
-feign:
-  hystrix:
-    enabled: false
-    command:
-      default:
-        execution:
-          isolation:
-            thread:
-              timeoutInMilliseconds: 10000
-          timeout:
-            enabled: false
+#ribbon:
+#  readTimeout: 30000
+#  socketTimeout: 30000
+#  connectTimeout: 30000
+#feign:
+#  hystrix:
+#    enabled: false
+#    command:
+#      default:
+#        execution:
+#          isolation:
+#            thread:
+#              timeoutInMilliseconds: 10000
+#          timeout:
+#            enabled: false

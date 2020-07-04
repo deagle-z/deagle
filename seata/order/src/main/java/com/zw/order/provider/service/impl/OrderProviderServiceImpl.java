@@ -1,10 +1,10 @@
 package com.zw.order.provider.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.zw.api.order.OrderService;
 import com.zw.exception.BusinessException;
 import com.zw.order.business.entity.OrderEntity;
 import com.zw.response.R;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -27,6 +27,6 @@ public class OrderProviderServiceImpl implements OrderService {
         orderEntity.setCommodityCode(code);
         orderEntity.setCount(count);
         orderService.save(orderEntity);
-        return R.success("success");
+        return R.success("order服务success");
     }
 }

@@ -3,13 +3,6 @@ server:
 spring:
   application:
     name: storage
-      #  cloud:
-      #    config:
-    #      label: dev
-  #      profile: dev
-  #      discovery:
-  #        enabled: true
-  #        service-id: config
   servlet:
     multipart:
       max-file-size: 100MB
@@ -21,13 +14,14 @@ spring:
 #        group: deagle
 #        refresh-enabled: true
 #        server-addr: 127.0.0.1:8848
-      server-addr: 127.0.0.1:8848
+      server-addr: 124.70.222.176:8848
       discovery:
-        server-addr: 127.0.0.1:8848
-        group: deagle
+        server-addr: 124.70.222.176:8848
         namespace: 46af61ad-d195-43d6-b021-4e96979b0053
   profiles:
     active: dev
+  main:
+    allow-bean-definition-overriding: true
 
 dubbo:
   application:
@@ -35,15 +29,17 @@ dubbo:
   scan:
     base-packages: com.zw.storage.provider.service.impl
   protocol: #协议
+    id: dubbo
     name: dubbo
     port: 20881
     threads: 200
-    ssl-enabled: false
+#    ssl-enabled: false
     heartbeat: 10
   registry:
-    address: nacos://127.0.0.1:8848
+    id: dubbo-storage-registry
+    address: nacos://124.70.222.176:8848
     group: deagle
     timeout: 3000
-  provider:
-    group: deagle
-    timeout: 3000
+#  provider:
+#    group: deagle
+#    timeout: 3000

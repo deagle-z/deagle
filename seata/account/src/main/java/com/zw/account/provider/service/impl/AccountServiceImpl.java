@@ -1,7 +1,7 @@
 package com.zw.account.provider.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.zw.account.provider.service.AccountService;
-import org.apache.dubbo.config.annotation.Service;
 
 /**
   * dubbo test

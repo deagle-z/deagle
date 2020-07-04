@@ -22,3 +22,7 @@ management:
     web:
       exposure:
         include: "*"
+rocketmq:
+  name-server: 119.3.126.204:9876
+  producer:
+    send-message-timeout: 300000

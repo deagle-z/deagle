@@ -1,9 +1,9 @@
 package com.zw.storage.provider.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.zw.api.storage.StorageService;
 import com.zw.response.R;
 import com.zw.storage.business.entity.StorageEntity;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -24,4 +24,8 @@ public class StorageServiceProviderImpl implements StorageService {
         storageService.save(storageEntity);
         return R.success("success");
     }
+
+//    @Service(version = "1.0.0",protocol = "${dubbo.protocol.id}",
+//            application = "${dubbo.application.id}",registry = "${dubbo.registry.id}",
+//            timeout = 3000)
 }

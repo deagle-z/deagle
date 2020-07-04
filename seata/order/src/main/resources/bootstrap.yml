@@ -10,44 +10,45 @@ spring:
 #        group: deagle
 #        refresh-enabled: true
 #        server-addr: 127.0.0.1:8848
-      server-addr: 127.0.0.1:8848
+      server-addr: 124.70.222.176:8848
       discovery:
-        server-addr: 127.0.0.1:8848
-        group: deagle
+        server-addr: 124.70.222.176:8848
         namespace: 46af61ad-d195-43d6-b021-4e96979b0053
-        heart-beat-timeout: 50000
-        heart-beat-interval: 10
   profiles:
     active: dev
-    #        namespace: 名称空间 默认
+  main:
+    allow-bean-definition-overriding: true
+  #        namespace: 名称空间 默认
     #        watch-delay: 观察延迟冲 nacos获取最新的服务的延迟时间 默认30000
     #        naming-load-cache-at-start: 服务启动时加载本地缓存
     #        heart-beat-timeout: 心跳超时
     #        heart-beat-interval: 心跳间隔
     #        endpoint:  服务的域名,用于动态获取
-
-
     # jekins部署
     #  原本启动参数： --spring.profiles.active=dev
     #  需要替换参数为：--spring.cloud.nacos.config.namespace=43cfdf88-1a5e
 dubbo:
   application:
     name: dubbo-order
+    id: dubbo-order
+    qos-enable: false
   scan:
     base-packages: com.zw.order.provider.service.impl
   protocol: #协议
     name: dubbo
+    id: dubbo
     port: 20880
     threads: 200
-    ssl-enabled: false
+#    ssl-enabled: false
     heartbeat: 10
   registry:
-    address: nacos://127.0.0.1:8848
+    id: dubbo-order-registry
+    address: nacos://124.70.222.176:8848
     group: deagle
     timeout: 3000
-  provider:
-    group: deagle
-    timeout: 3000
-  config-center:
-    namespace: 46af61ad-d195-43d6-b021-4e96979b0053
+#  provider:
+#    group: deagle
+#    timeout: 3000
+#  config-center:
+#    namespace: 46af61ad-d195-43d6-b021-4e96979b0053
 

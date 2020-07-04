@@ -5,15 +5,13 @@ spring:
     name: primary
   cloud:
     nacos:
-      config:
-        file-extension: yaml
-        group: deagle
-        refresh-enabled: true
-        server-addr: 127.0.0.1:8848
-#      server-addr: 127.0.0.1:8848
+#      config:
+#        file-extension: yaml
+#        group: deagle
+#        refresh-enabled: true
+      server-addr: 124.70.222.176:8848
       discovery:
-        server-addr: 127.0.0.1:8848
-        group: deagle
+        server-addr: 124.70.222.176:8848
         namespace: 46af61ad-d195-43d6-b021-4e96979b0053
   profiles:
     active: dev
@@ -23,28 +21,33 @@ spring:
   #        heart-beat-timeout: 心跳超时
 #        heart-beat-interval: 心跳间隔
 #        endpoint:  服务的域名,用于动态获取
+  main:
+    allow-bean-definition-overriding: true
 
 
-
-# jekins部署
+  # jekins部署
 #  原本启动参数： --spring.profiles.active=dev
     #  需要替换参数为：--spring.cloud.nacos.config.namespace=43cfdf88-1a5e
 dubbo:
 #  添加以下内容 会在 nacos->服务列表和配置列表中都添加一条记录 具体原因未知
 #  scan:
 #    base-packages: com.zw.primary.provider
-#  protocol:
-#    name: primary
-#    port: 1302
-#    heartbeat:
   application:
+    id: dubbo-primary
     name: dubbo-primary
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 1302
   registry:
-    address: nacos://127.0.0.1:8848
+    id: dubbo-primary-registry
+    address: nacos://124.70.222.176:8848
     group: deagle
-  consumer:
-    group: deagle
-    timeout: 3000
-  config-center:
-    namespace: 46af61ad-d195-43d6-b021-4e96979b0053
+  provider:
+    version: 1.0.0
+#  consumer:
+#    group: deagle
+#    timeout: 3000
+#  config-center:
+#    namespace: 46af61ad-d195-43d6-b021-4e96979b0053
 
