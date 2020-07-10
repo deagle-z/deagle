@@ -1,5 +1,7 @@
 package com.zw.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 /**
@@ -28,6 +30,7 @@ public class R<T> implements Serializable {
 
     private int code = SUCCESS;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private T data;
 
     public R() {
@@ -97,27 +100,23 @@ public class R<T> implements Serializable {
         return r;
     }
 
-    public static R success() {
-        return new R(MSG, SUCCESS);
+    public static R<String> success() {
+        return new R<>(MSG, SUCCESS);
     }
 
-    public static R success(String msg){
-        return new R(msg, SUCCESS);
+    public static R<String> success(String msg){
+        return new R<>(msg, SUCCESS);
     }
 
-    public  R success(T data){
-        return new R(SUCCESS,data);
+    public static <T>  R<T> success(T data){
+        return new R<>(SUCCESS,data);
     }
 
-    public R error() {
-        return new R(msg, FAIL);
+    public static R<String> error() {
+        return new R<>("未知异常", FAIL);
     }
 
-    public static R error(String msg) {
-        return new R(msg, FAIL);
-    }
-
-    public static R error(Integer code){
-        return new R("error",code);
+    public static R<String> error(String msg) {
+        return new R<>(msg, FAIL);
     }
 }

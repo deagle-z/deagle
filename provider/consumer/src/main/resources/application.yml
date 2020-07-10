@@ -9,3 +9,5 @@ spring:
         acknowledge-mode: auto
       direct:
         acknowledge-mode: auto
+rocketmq:
+  name-server: 119.3.126.204:9876
