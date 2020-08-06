@@ -1,15 +1,16 @@
 package com.zw.auth.business.mapper;
 
+import com.zw.auth.business.entity.UserEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zw.auth.business.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-
 
 /**
- * user dao
- * @date 2019/12/26
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
  * @author zw
+ * @since 2020-08-06
  */
-@Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<UserEntity> {
+
 }

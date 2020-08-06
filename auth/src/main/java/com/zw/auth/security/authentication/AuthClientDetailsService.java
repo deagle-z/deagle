@@ -15,12 +15,13 @@ import javax.annotation.Resource;
 
 /**
   * 获取客户端信息
+  *
   * @date 2020/3/5
   * @author zw
 */
 
-@Component
 @Slf4j
+@Component
 public class AuthClientDetailsService implements ClientDetailsService {
     private ClientDetailsService clientDetailsService;
 
@@ -33,17 +34,23 @@ public class AuthClientDetailsService implements ClientDetailsService {
      */
     @PostConstruct
     public void init() {
+        //.secret(passwordEncoder.encode(client.getClientSecret()))
 
         final InMemoryClientDetailsServiceBuilder builder = new InMemoryClientDetailsServiceBuilder();
         if (ArrayUtils.isNotEmpty(securityProperties.getOauth2().getClients())) {
             for (final OAuth2ClientProperties client : securityProperties.getOauth2().getClients()) {
-                builder.withClient(client.getClientId()) //clientId
-                        .secret(client.getClientSecret()) //client密码
-                        //.secret(passwordEncoder.encode(client.getClientSecret()))
-                        .authorizedGrantTypes("refresh_token", "password", "client_credentials") //客户端的授权类型authorized_code : 授权码（短信验证码）方式
-                        .accessTokenValiditySeconds(client.getAccessTokenValidateSeconds()) //token有效期
-                        .refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds()) //刷新token使劲按
-                        .scopes(client.getScope()); //范围
+                //clientId
+                builder.withClient(client.getClientId())
+                        //client密码
+                        .secret(client.getClientSecret())
+                        //客户端的授权类型authorized_code : 授权码（短信验证码）方式
+                        .authorizedGrantTypes("refresh_token", "password", "client_credentials")
+                        //token有效期
+                        .accessTokenValiditySeconds(client.getAccessTokenValidateSeconds())
+                        //刷新token使劲按
+                        .refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds())
+                        //范围
+                        .scopes(client.getScope());
             }
         }
         try {

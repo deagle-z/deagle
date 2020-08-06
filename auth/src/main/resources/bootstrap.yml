@@ -15,19 +15,19 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   #认证授权配置
-  security:
-    oauth2:
-      client:
-        clientId: deagle-client-browser
-        clientSecret: deagle-client-browser-secret
-        access-token-uri: http://auth.common.cpms:2000/oauth/token
-        user-authorization-uri: http://auth.common.cpms:2000/oauth/authorize
-      resource:
-        user-info-uri: http://auth.common.cpms:2000/user
-        prefer-token-info: false
-        jwt:
-          key-uri: http://auth.common.cpms:2000/oauth/token_key
-        id: deagle-resource-user
+security:
+  oauth2:
+    client:
+      clientId: deagle-client-browser
+      clientSecret: deagle-client-browser-secret
+      access-token-uri: http://auth.common.cpms:2000/oauth/token
+      user-authorization-uri: http://auth.common.cpms:2000/oauth/authorize
+    resource:
+      user-info-uri: http://auth.common.cpms:2000/user
+      prefer-token-info: false
+      jwt:
+        key-uri: http://auth.common.cpms:2000/oauth/token_key
+      id: deagle-resource-user
 eureka:
   client:
     registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
@@ -36,4 +36,4 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 5 #心跳间隔时间 生产默认30
     lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
-    prefer-ip-address: false # 默认false 设置为true
+    prefer-ip-address: true # 默认false 设置为true

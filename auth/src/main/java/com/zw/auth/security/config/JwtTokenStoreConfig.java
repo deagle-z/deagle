@@ -9,18 +9,24 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+/**
+ * token的生成方式
+ *
+ * @author zw
+ * @date 2020/8/5
+ */
 
 @Configuration
 public class JwtTokenStoreConfig {
 
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
+
     /**
-     * Jwt token store token store.
+     * 使用jwtToken的方式来使用token,缺点是无法及时的撤销token,只能设置较短的token有效期
+     * 还有 redisTokenStore JdbcTokenStore InMemoryStore
      *
-     * @return the token store
      */
     @Bean
     public TokenStore jwtTokenStore() {
@@ -29,7 +35,8 @@ public class JwtTokenStoreConfig {
     }
 
     /**
-     * Jwt access token converter jwt access token converter.
+     * Jwt access token converter
+     * jwt访问令牌转换器
      *
      * @return the jwt access token converter
      */
@@ -47,6 +54,7 @@ public class JwtTokenStoreConfig {
     }
 
     /**
+     * 返回增强token类
      * Jwt token enhancer token enhancer.
      *
      * @return the token enhancer

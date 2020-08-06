@@ -17,7 +17,10 @@ import org.apache.ibatis.reflection.MetaObject;
 import java.util.Date;
 
 /**
- * Create by Tianhaobing ON 2019/2/25
+ * mybatisPlus 统一处理新增/修改 必改字段
+ *
+ * @author zw
+ * @date 2020/8/6
  */
 @Slf4j
 public class MPMetaObjectHandler implements MetaObjectHandler {
@@ -30,7 +33,7 @@ public class MPMetaObjectHandler implements MetaObjectHandler {
         log.warn(" ==> start insert fill ....");
         this.strictInsertFill(metaObject, "createDate", Date.class, new Date());
         this.strictInsertFill(metaObject, "updateDate", Date.class, new Date());
-        this.strictInsertFill(metaObject, "isDelete", String.class, 0);
+        this.strictInsertFill(metaObject, "deleteFlag", String.class, 0);
     }
 
     @Override
