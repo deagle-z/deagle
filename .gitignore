@@ -4,6 +4,8 @@ target/
 **/src/main/**
 **/src/test/**
 **/log/
+logs/
+/**/**.logs
 
 ### STS ###
 .apt_generated
@@ -55,3 +57,5 @@ seata/order/src/main/java/com/zw/order/config/
 seata/storage/src/main/java/com/zw/storage/business/controller/
 seata/storage/src/main/java/com/zw/storage/business/mapper/
 user/src/main/java/com/zw/user/business/controller/
+/logs/
+/logs/**/**.log
