@@ -1,12 +1,20 @@
 package com.zw.auth.security.authentication;
 
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.zw.auth.business.entity.UserEntity;
 import com.zw.auth.business.service.UserService;
+import com.zw.base.entity.SecurityDetail;
+import com.zw.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Map;
+
+import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
   * 实现UserDetailsService 重写 loadUserByUsername方法 实际就是获取用户的信息
@@ -24,19 +32,21 @@ public class AuthDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username){
-//        Wrappers.<UserEntity>lambdaQuery().eq(UserEntity::getAccount)
-//        final User user = userService.getOne();
-//        final SecurityDetail securityDetail = new SecurityDetail();
-//        if (StringUtils.isEmpty(user.getPassword())) {
-//            throw new BusinessException("用户名不存在！");
-//        }
-//        try {
-//            copyProperties(user,securityDetail);
-//            //缺少设置 securityDetail.setAuthorities()
-//        } catch (Exception e) {
-//            log.error("loadUserByUsername,复制数据失败！",e);
-//        }
-//        log.info("AuthUserDetailService::getUserByName::responseDto[{}]", securityDetail);
+        log.warn("===============>AuthDetailServiceImpl<==================");
+        final Map<SFunction<UserEntity, Object>, String> params = UserService.paramsMap();
+        params.put(UserEntity::getAccount,username);
+        final UserEntity user = userService.getOne(params);
+        final SecurityDetail securityDetail = new SecurityDetail();
+        if (StringUtils.isEmpty(user.getPassword())) {
+            throw new BusinessException("用户名不存在！");
+        }
+        try {
+            copyProperties(user,securityDetail);
+            //缺少设置 securityDetail.setAuthorities()
+        } catch (Exception e) {
+            log.error("loadUserByUsername,复制数据失败！",e);
+        }
+        log.info("AuthUserDetailService::getUserByName::responseDto[{}]", securityDetail);
 
         //从数据库获取菜单信息
 //        final List<Menu> menus = authDto.getMenus();
@@ -48,8 +58,6 @@ public class AuthDetailServiceImpl implements UserDetailsService {
 //            }
 //        }
 //        final Collection<GrantedAuthority> menuLinks =authList;
-//        return securityDetail;
-        return null;
-
+        return securityDetail;
     }
 }

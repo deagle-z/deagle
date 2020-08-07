@@ -36,12 +36,13 @@ public class JwtTokenStoreConfig {
 
     /**
      * Jwt access token converter
-     * jwt访问令牌转换器
+     * 配置jwtToken转换器
      *
      * @return the jwt access token converter
      */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        System.out.println("=====================>jwtAccessTokenConverter<==================");
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey("deagle");
         // 可以设置证书
@@ -62,6 +63,7 @@ public class JwtTokenStoreConfig {
     @Bean
     @ConditionalOnBean(TokenEnhancer.class)
     public TokenEnhancer jwtTokenEnhancer() {
+        System.out.println("=====================>jwtAccessTokenConverter<==================");
         return new TokenJwtEnhancer();
     }
 

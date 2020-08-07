@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,6 @@ import java.util.List;
   * oauth2 核心类 核心功能
   * @date 2020/3/5
   * @author zw
-  * order 0
 */
 @EnableAuthorizationServer
 @Configuration
@@ -59,11 +59,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     /**
      * 那些url可以匿名访问.
      *
-     * @param security the 用来配置令牌端点(Token Endpoint)的安全约束.
+     * @param security 用来配置令牌端点(Token Endpoint)的安全约束.
      *
      */
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer security) {
+        System.out.println("===================> AuthorizationServerConfig AuthorizationServerSecurityConfigurer config  <==================="+ LocalDateTime.now());
         // 开启/oauth/token_key验证端口无权限访问
         //允许所有人可以访问获取token接口
         security.tokenKeyAccess("permitAll()");
@@ -81,8 +82,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-//        super.configure();
-//        clients.inMemory()
+        System.out.println("===================> AuthorizationServerConfig ClientDetailsServiceConfigurer config  <===================" + LocalDateTime.now());
         clients.withClientDetails(authClientDetailsService);
     }
 
@@ -97,7 +97,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints)  {
         //使用的密码模式，则必须有验证器 authenticationManager
-
+        System.out.println("===================> AuthorizationServerConfig AuthorizationServerEndpointsConfigurer config  <===================" + LocalDateTime.now());
         endpoints.tokenStore(jwtTokenStore)
                 //authenticationManager 密码验证的认证管理器，密码模式必备
                 .authenticationManager(authenticationManager)

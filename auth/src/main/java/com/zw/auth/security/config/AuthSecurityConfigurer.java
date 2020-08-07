@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.annotation.Resource;
 
@@ -24,26 +26,26 @@ import javax.annotation.Resource;
 public class AuthSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Resource
     private AuthenticationManager authenticationManager;
-//    @Resource
-//    protected AuthenticationSuccessHandler authenticationSuccessHandler;
-//
-//    @Resource
-//    protected AuthenticationFailureHandler authenticationFailureHandler;
-//    @Bean
-//    @ConditionalOnMissingBean(PasswordEncoder.class)
-//    public PasswordEncoder passwordEncoder() {
-//
-//        return new BCryptPasswordEncoder();
-//    }
+    @Resource
+    protected AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Resource
+    protected AuthenticationFailureHandler authenticationFailureHandler;
+
 
     @Bean
     @ConditionalOnMissingBean(PasswordEncoder.class)
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new CustomPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    @ConditionalOnMissingBean(PasswordEncoder.class)
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new CustomPasswordEncoder();
+//    }
+
     /**
-     * 注入 AuthenticationManager 用于密码模式 认证管理器
+     * 注入 AuthenticationManager 用于密码模式必须 认证管理器
      *
      * @author zw
      * @date 2020/3/7
@@ -72,10 +74,9 @@ public class AuthSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 
     /**
-     * 核心方法 配置 授权拦截策略
+     * 核心方法 配置 authorizationServerConfig 授权拦截策略
      *
-     * @param
-     * @return
+     * @param http
      */
     @Override
     protected void configure(final HttpSecurity http) throws Exception {

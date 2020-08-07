@@ -1,7 +1,7 @@
 package com.zw.auth.security.authentication;
 
-import com.zw.security.properties.OAuth2ClientProperties;
-import com.zw.security.properties.SecurityProperties;
+import com.zw.auth.security.properties.OAuth2ClientProperties;
+import com.zw.auth.security.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
@@ -35,6 +35,7 @@ public class AuthClientDetailsService implements ClientDetailsService {
     @PostConstruct
     public void init() {
         //.secret(passwordEncoder.encode(client.getClientSecret()))
+        System.out.println("===================> AuthClientDetailsService 获取配置文件中的客户端信息  <===================");
 
         final InMemoryClientDetailsServiceBuilder builder = new InMemoryClientDetailsServiceBuilder();
         if (ArrayUtils.isNotEmpty(securityProperties.getOauth2().getClients())) {

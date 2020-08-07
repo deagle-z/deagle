@@ -1,6 +1,6 @@
 
 
-package com.zw.security.properties;
+package com.zw.auth.security.properties;
 
 import lombok.Data;
 
