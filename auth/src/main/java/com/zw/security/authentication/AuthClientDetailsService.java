@@ -63,6 +63,7 @@ public class AuthClientDetailsService implements ClientDetailsService {
 
     @Override
     public ClientDetails loadClientByClientId(String s) throws ClientRegistrationException {
-        return clientDetailsService.loadClientByClientId(s);
+        final ClientDetails clientDetails = clientDetailsService.loadClientByClientId(s);
+        return clientDetails;
     }
 }

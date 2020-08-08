@@ -63,7 +63,7 @@ public class JwtTokenStoreConfig {
     @Bean
     @ConditionalOnBean(TokenEnhancer.class)
     public TokenEnhancer jwtTokenEnhancer() {
-        System.out.println("=====================>jwtAccessTokenConverter<==================");
+        System.out.println("=====================>jwtTokenEnhancer<==================");
         return new TokenJwtEnhancer();
     }
 
