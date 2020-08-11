@@ -1,5 +1,6 @@
 package com.zw.util;
 
+import com.zw.exception.BusinessException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
@@ -22,36 +23,6 @@ public class RedissonUtil {
     @Resource
     RedissonClient redissonClient;
 
-
-    /**
-     * lock()强制上锁 如果获取不到会一直询问进入死循环 线程阻塞
-     * 注意释放锁
-     *
-     * @param key redis key
-     * @date 2019/12/20
-     */
-    public RLock lock(String key) {
-        RLock lock = redissonClient.getLock(key);
-        lock.lock();
-        return lock;
-    }
-
-
-    /**
-     * 强制上锁一定时间
-     * 注意释放锁
-     *
-     * @param key       redis key
-     * @param leaseTime 上锁时间
-     * @date 2019/12/20
-     */
-    public RLock lock(String key, Long leaseTime) {
-        RLock lock = redissonClient.getLock(key);
-        lock.lock(leaseTime, TimeUnit.SECONDS);
-        return lock;
-    }
-
-
     /**
      * 尝试获得锁
      * 获得锁后注意释放
@@ -65,11 +36,12 @@ public class RedissonUtil {
             boolean b = lock.tryLock();
             if (b) {
                 return lock;
+            }else{
+                throw new BusinessException("{}分布式锁被占用无法获取",key);
             }
         } catch (Exception e) {
-            return null;
+            throw new BusinessException("获取分布式锁失败{}",e.toString());
         }
-        return null;
     }
 
 
@@ -87,23 +59,14 @@ public class RedissonUtil {
             boolean isLock = lock.tryLock(seconds, TimeUnit.SECONDS);
             if (isLock) {
                 return lock;
-            } else {
-                return null;
             }
+            throw new BusinessException("{}分布式锁被占用无法获取",key);
         } catch (Exception e) {
-            return null;
+            throw new BusinessException("获取分布式锁失败{}", e.toString());
         }
     }
 
-    /**
-     * 解锁
-     *
-     * @param key k
-     * @date 2019/12/21
-     */
-    public void unLock(String key) {
-        RLock lock = redissonClient.getLock(key);
-        lock.unlock();
-    }
+
+
 
 }

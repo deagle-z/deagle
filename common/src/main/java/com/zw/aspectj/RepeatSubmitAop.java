@@ -1,7 +1,6 @@
 package com.zw.aspectj;
 
 import com.zw.annotation.NoRepeatSubmit;
-import com.zw.util.RedissonUtil;
 import com.zw.util.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,11 +8,13 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 /**
  * aop-接口防重复提交
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RepeatSubmitAop {
 
     @Resource
-    private RedissonUtil redissonUtil;
+    private RedissonClient redissonClient;
 
     /**
      * 定义切点 被@NoRepeatSubmit标识的方法
@@ -57,7 +58,8 @@ public class RepeatSubmitAop {
         final String servletPath = request.getServletPath();
         //由token和url拼成key
         String key = token + servletPath;
-        RLock rLock = redissonUtil.tryLock(key, (long) lockTime);
+        RLock rLock = redissonClient.getLock(key);
+        rLock.lock(lockTime, TimeUnit.SECONDS);
         try {
             if (rLock != null) {
                 log.info("tryLock success,key is [{}],lockTime [{}]", key, lockTime);

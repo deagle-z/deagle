@@ -7,7 +7,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,24 +21,24 @@ public class RedisUtil {
     @Resource
     private RedisTemplate<String, String> redisTemplate;
 
-    public boolean hasKey(@NotNull String key) {
+    public boolean hasKey(String key) {
         Assert.notNull(key, "redis key 不可为null");
         return redisTemplate.hasKey(key);
     }
 
-    public void set(@NotNull String key, @NotNull Object value) {
+    public void set(String key, Object value) {
         Assert.notNull(key, "redis key 不可为null");
         Assert.notNull(value, "redis value 不可为null");
         redisTemplate.opsForValue().set(key, JSONObject.toJSONString(value));
     }
 
-    public void expire(@NotNull String key, @NotNull Object value, @NotNull Integer seconds) {
+    public void expire(String key, Object value,  Integer seconds) {
         Assert.notNull(key, "redis key 不可为null");
         Assert.notNull(value, "redis value 不可为null");
         redisTemplate.opsForValue().set(key, JSONObject.toJSONString(value), seconds == null ? seconds : 5000);
     }
 
-    public boolean del(@NotNull String key) {
+    public boolean del(String key) {
         Assert.notNull(key, "redis key 不可为null");
         if (hasKey(key)) {
             return redisTemplate.delete(key);
@@ -47,7 +46,7 @@ public class RedisUtil {
         return false;
     }
 
-    public String get(@NotNull String key) {
+    public String get( String key) {
         if (hasKey(key)) {
             return redisTemplate.opsForValue().get(key);
         }
@@ -63,7 +62,8 @@ public class RedisUtil {
      * @param tryLockTime 尝试获取锁时间
      * @return 是否获取成功
      */
-    public boolean tryGetDistributedLock(@NotNull String lockKey, @NotNull String requestId, @NotNull Long expireTime, @NotNull Long tryLockTime) {
+    @Deprecated
+    public boolean tryGetDistributedLock( String lockKey,  String requestId,  Long expireTime,  Long tryLockTime) {
         if (StringUtils.isEmpty(lockKey) || StringUtils.isEmpty(requestId) || StringUtils.isEmpty(expireTime) || StringUtils.isEmpty(tryLockTime)) {
             return false;
         }
@@ -91,6 +91,7 @@ public class RedisUtil {
      * @param requestId 请求标识(默认当前服务的applicationName + ip + 端口)
      * @return 是否释放成功
      */
+    @Deprecated
     public boolean releaseDistributedLock(String lockKey, String requestId) {
         Assert.notNull(lockKey,"lockKey 不可为空");
         Assert.notNull(requestId,"requestId 不可为空");
@@ -99,5 +100,4 @@ public class RedisUtil {
         }
         return false;
     }
-
 }
