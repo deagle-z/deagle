@@ -1,0 +1,15 @@
+server:
+  port: 9001
+spring:
+  main:
+    allow-bean-definition-overriding: true # 这个表示允许我们覆盖OAuth2放在容器中的bean对象，一定要配置
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 #心跳间隔时间 生产默认30
+    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
+    prefer-ip-address: false # 默认false 设置为true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}

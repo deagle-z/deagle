@@ -8,6 +8,8 @@ eureka:
     registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
     service-url:
       defaultZone: http://localhost:1000/eureka
+    fetch-registry: false # 关闭eureka互相注册
+    register-with-eureka: false # 关闭eureka互相注册
   server:
     enable-self-preservation: false #为true 五分钟内心跳低于85%的 也不剔除该服务
     renewal-percent-threshold: 0.85 # 默认五分钟内心跳数低于85%则 剔除该服务
@@ -19,3 +21,9 @@ eureka:
     lease-renewal-interval-in-seconds: 5 #心跳间隔时间
     lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
     prefer-ip-address: false # 默认false 设置为true
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: error

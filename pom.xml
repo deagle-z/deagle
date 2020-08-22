@@ -12,7 +12,7 @@
         <module>eureka</module>
         <module>zuul</module>
         <module>provider</module>
-        <module>auth</module>
+        <module>oauth</module>
         <module>user</module>
         <module>seata</module>
         <module>api</module>

@@ -1,0 +1,106 @@
+spring:
+  datasource:
+    druid:
+      name: frame
+      # mysql : jdbc:mysql://ip:port/database
+      # oracle : jdbc:oracle:thin:@ip:port:database
+      url: jdbc:mysql://124.70.222.176:3306/deagle?characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
+      username: deaglez
+      password: 321!@#
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 1
+      maxActive: 20
+      minIdle: 1
+      maxWait: 60000
+      pool-prepared-statements: false
+      max-open-prepared-statements: -1
+      validationQuery: select 'x'
+      testOnBorrow: false
+      testOnReturn: false
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      connectionInitSqls: select 1 from dual
+      filters: stat, wall
+      filter:
+        stat:
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: false
+            drop-table-allow: false
+
+      stat-view-servlet:
+        enabled: true
+        url-pattern: "/druid/*"
+        reset-enable: false
+        login-username: admin
+        login-password: admin
+
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+        session-stat-max-count: 1000
+        session-stat-enable: true
+        profile-enable: true
+        principalSessionName: session_user_key
+        principalCookieName: cookie_user_key
+  ## ---------------redis-----------
+  redis:
+    host: 124.70.222.176
+    client-name: redis
+    password: zhw!@#
+    port: 6379
+  application:
+    name: eureka
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  type-aliases-package: com.zw.**
+  type-aliases-super-type: java.lang.Object
+  type-enums-package: com.baomidou.mybatisplus.samples.quickstart.enums
+  check-config-location: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    aggressive-lazy-loading: true
+    auto-mapping-behavior: partial
+    auto-mapping-unknown-column-behavior: FAILING
+    call-setters-on-nulls: true
+    # ����JdbcTypeForNull, oracle���ݿ��������
+    #    jdbc-type-for-null: "null"
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    #    worker-id:
+    #    datacenter-id:
+    db-config:
+      table-underline: true
+      id-type: auto
+      #capital-mode: false
+      #�߼���ɾ��ֵ,(�߼�ɾ������Ч) ��Ҫע���߼�����LogicSqlInjector ��@Bean��ʽע��
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+#      logic-delete-field:  delete_flag
+#      nsert-strategy: not_null
+security:
+  oauth2:
+    client:
+      clientId: deagle-client-auth
+      clientSecret: deagle-client-auth-secret
+      access-token-uri: http://auth.common.deagle:2000/oauth/token
+      user-authorization-uri: http://auth.common.deagle:2000/oauth/authorize
+    resource:
+      user-info-uri: http://auth.common.deagle:2000/user
+      prefer-token-info: false
+      jwt:
+        key-uri: http://auth.common.deagle:2000/oauth/token_key
+      id: deagle-resource-auth
+#redisson:
+#  address: http://124.70.222.176:6379
+#  password: zhw!@#
