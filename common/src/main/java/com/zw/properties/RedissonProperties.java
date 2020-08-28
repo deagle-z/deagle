@@ -1,4 +1,4 @@
-package com.zw.base;
+package com.zw.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

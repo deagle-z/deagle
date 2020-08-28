@@ -1,4 +1,4 @@
-package com.zw.oauth.business.dto;
+package com.zw.oauth.business.pojo.dto;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +14,8 @@ public class UserDetailsDto implements UserDetails {
     private String password;
 
     private String username;
+
+    private String passwordSalt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

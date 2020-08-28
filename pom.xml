@@ -13,7 +13,6 @@
         <module>zuul</module>
         <module>provider</module>
         <module>oauth</module>
-        <module>user</module>
         <module>seata</module>
         <module>api</module>
         <module>generator</module>
@@ -62,12 +61,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <!-- Java Bean 到 Java Bean 映射器 它以递归方式将数据从一个对象复制到另一个对象-->
-        <dependency>
-            <groupId>com.github.dozermapper</groupId>
-            <artifactId>dozer-spring-boot-starter</artifactId>
-            <version>6.2.0</version>
         </dependency>
     </dependencies>
 

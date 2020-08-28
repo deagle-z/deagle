@@ -6,6 +6,12 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+/**
+ * 注入 token相关类
+ *
+ * @author zw
+ * @date 2020/8/25
+ */
 @Configuration
 public class TokenConfig {
 
@@ -21,7 +27,4 @@ public class TokenConfig {
         tokenConverter.setSigningKey("deagle");
         return tokenConverter;
     }
-
-
-
 }

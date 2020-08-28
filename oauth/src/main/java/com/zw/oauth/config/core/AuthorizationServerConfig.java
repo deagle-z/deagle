@@ -2,8 +2,8 @@ package com.zw.oauth.config.core;
 
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.zw.oauth.config.CustomerPasswordEncode;
-import com.zw.oauth.config.CustomerUserDetailService;
+import com.zw.oauth.config.customer.CustomerPasswordEncoder;
+import com.zw.oauth.config.customer.CustomerUserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +20,14 @@ import javax.annotation.Resource;
 
 
 /**
- * oauth2 授权服务
+ * oauth2 授权服务配置
  *
  * @author zw
  * @date 2020/8/19
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     TokenStore tokenStore;
     @Qualifier("tokenAccess")
@@ -35,14 +35,14 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     AccessTokenConverter converter;
     @Autowired
     AuthenticationManager manager;
-    @Autowired
-    CustomerUserDetailService userDetailsService;
+    @Resource
+    CustomerUserDetailServiceImpl userDetailsService;
     @Resource
     DruidDataSource dataSource;
 
 
     /**
-     * 授权配置
+     * 授权访问接口开放配置
      *
      * @param security 安全配置器
      */
@@ -65,7 +65,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource).passwordEncoder(new CustomerPasswordEncode());
+        clients.jdbc(dataSource).passwordEncoder(new CustomerPasswordEncoder());
     }
 
 

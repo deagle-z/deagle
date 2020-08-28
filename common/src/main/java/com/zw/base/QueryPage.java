@@ -9,8 +9,13 @@ import lombok.Data;
  */
 @Data
 public class QueryPage<T> {
+
     private Integer currentPage = 1;
-    private Integer size = 10;
+
+    private Integer pageSize = 10;
+
     private T detail;
+
     private String condition;
+
 }

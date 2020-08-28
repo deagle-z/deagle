@@ -12,14 +12,14 @@ spring:
       initialSize: 1
       maxActive: 20
       minIdle: 1
-      maxWait: 60000
+      maxWait: 600000
       pool-prepared-statements: false
       max-open-prepared-statements: -1
       validationQuery: select 'x'
       testOnBorrow: false
       testOnReturn: false
       testWhileIdle: true
-      timeBetweenEvictionRunsMillis: 60000
+      timeBetweenEvictionRunsMillis: 600000
       minEvictableIdleTimeMillis: 300000
       connectionInitSqls: select 1 from dual
       filters: stat, wall
@@ -60,8 +60,8 @@ spring:
   application:
     name: eureka
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*Mapper.xml
-  type-aliases-package: com.zw.**
+  mapper-locations: classpath*:/mapper/*/*Mapper.xml
+
   type-aliases-super-type: java.lang.Object
   type-enums-package: com.baomidou.mybatisplus.samples.quickstart.enums
   check-config-location: true
@@ -81,13 +81,12 @@ mybatis-plus:
     #    datacenter-id:
     db-config:
       table-underline: true
-      id-type: auto
+      id-type: ASSIGN_ID
       #capital-mode: false
-      #�߼���ɾ��ֵ,(�߼�ɾ������Ч) ��Ҫע���߼�����LogicSqlInjector ��@Bean��ʽע��
-      logic-not-delete-value: 0
-      logic-delete-value: 1
-#      logic-delete-field:  delete_flag
-#      nsert-strategy: not_null
+      logic-delete-field:  delete_flag
+      logic-not-delete-value: '0'
+      logic-delete-value: '1'
+      insert-strategy: not_null
 security:
   oauth2:
     client:

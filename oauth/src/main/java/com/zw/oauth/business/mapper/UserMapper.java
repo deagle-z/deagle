@@ -2,7 +2,7 @@ package com.zw.oauth.business.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zw.oauth.business.entity.UserEntity;
+import com.zw.oauth.business.pojo.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

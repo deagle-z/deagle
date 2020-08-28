@@ -23,8 +23,8 @@ public class CodeGenerate {
     private static final String DBNAME = "deagle";
     private static final String DB_USER = "deaglez";
     private static final String DB_PASSWORD = "321!@#";
-    private static final String TABLE_NAMES = "a_user";
-    private static final String ENTITY_NAME = "User";
+    private static final String TABLE_NAMES = "a_client";
+    private static final String ENTITY_NAME = "Client";
 
     public static void main(String[] args) {
 

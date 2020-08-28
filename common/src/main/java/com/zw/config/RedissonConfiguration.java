@@ -1,6 +1,6 @@
 package com.zw.config;
 
-import com.zw.base.RedissonProperties;
+import com.zw.properties.RedissonProperties;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -30,7 +30,7 @@ public class RedissonConfiguration {
 
     /**
      * 单机模式自动装配
-     * @return
+     * @return RedissonClient
      */
     @Bean
     @ConditionalOnProperty(name="redisson.address")

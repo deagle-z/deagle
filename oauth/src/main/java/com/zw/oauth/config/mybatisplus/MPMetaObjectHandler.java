@@ -8,11 +8,13 @@
  * supplied.
  */
 
-package com.zw.config.mybatisplus;
+package com.zw.oauth.config.mybatisplus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.zw.util.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -24,17 +26,27 @@ import java.util.Date;
  * @date 2020/8/6
  */
 @Slf4j
+@Component
 public class MPMetaObjectHandler implements MetaObjectHandler {
+
+    public static final String CREATE_BY = "createBy";
+    public static final String UPDATE_BY = "updateBy";
 
     @Override
     public void insertFill(final MetaObject metaObject) {
-        if (!metaObject.hasGetter("createDate") || !metaObject.hasGetter("updateDate") || !metaObject.hasGetter("isDelete")) {
-            return;
-        }
         log.warn(" ======> start insert fill ....<======");
-        this.strictInsertFill(metaObject, "createDate", Date.class, LocalDateTime.now());
-        this.strictInsertFill(metaObject, "updateDate", Date.class, LocalDateTime.now());
-        this.strictInsertFill(metaObject, "deleteFlag", String.class, 0);
+
+        final LocalDateTime now = LocalDateTimeUtil.nowTime();
+        this.strictInsertFill(metaObject, "createDate", LocalDateTime.class,now );
+        this.strictInsertFill(metaObject, "updateDate", LocalDateTime.class, now);
+        this.strictInsertFill(metaObject, "deleteFlag", String.class, "0");
+
+        if(null == getFieldValByName(CREATE_BY,metaObject)){
+            this.strictInsertFill(metaObject, CREATE_BY, Long.class, 1L);
+        }
+        if(null == getFieldValByName(UPDATE_BY,metaObject)){
+            this.strictInsertFill(metaObject, UPDATE_BY, Long.class, 1L);
+        }
     }
 
     @Override

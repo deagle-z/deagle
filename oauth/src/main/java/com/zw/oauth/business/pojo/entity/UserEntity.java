@@ -1,7 +1,6 @@
-package com.zw.oauth.business.entity;
+package com.zw.oauth.business.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,6 +24,7 @@ import java.time.LocalDateTime;
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @TableId
     private Long userId;
 
@@ -39,17 +39,25 @@ public class UserEntity implements Serializable {
 
     private String phone;
 
+    private String enabled;
+
     @ApiModelProperty(value = "昵称")
     private String nickName;
 
+    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
 
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateDate;
 
+    @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private String deleteFlag;
 
 

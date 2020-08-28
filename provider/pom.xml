@@ -7,7 +7,6 @@
         <artifactId>deagle</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.zw</groupId>
     <artifactId>provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>provider</name>
@@ -26,7 +25,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.zw.deagle</groupId>
+            <groupId>com.zw</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

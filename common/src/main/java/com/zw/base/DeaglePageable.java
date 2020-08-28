@@ -28,7 +28,7 @@ public class DeaglePageable<T> implements Pageable {
 
     @Override
     public int getPageSize() {
-        return queryPage.getSize();
+        return queryPage.getPageSize();
     }
 
     @Override

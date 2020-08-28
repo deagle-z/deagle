@@ -50,4 +50,8 @@ public class SystemConstant {
         public static final String COMMA = ",";
         public static final String SPOT = ".";
     }
+
+    public static final class Token{
+        public static final String TOKEN_USER = "TOKEN_USER";
+    }
 }

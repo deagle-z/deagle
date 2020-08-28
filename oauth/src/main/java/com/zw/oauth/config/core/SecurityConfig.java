@@ -1,13 +1,14 @@
 package com.zw.oauth.config.core;
 
-import com.zw.oauth.config.CustomerPasswordEncode;
-import com.zw.oauth.config.CustomerUserDetailService;
+import com.zw.oauth.config.customer.CustomerPasswordEncoder;
+import com.zw.oauth.config.customer.CustomerUserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -22,7 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    CustomerUserDetailService userDetailsService;
+    CustomerUserDetailServiceImpl userDetailsService;
 
     @Bean
     @Override
@@ -35,14 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(userDetailsService).passwordEncoder(new CustomerPasswordEncode());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new CustomerPasswordEncoder());
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/", "/user/**");
-//        super.configure(web);
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/User/**","/doc.html","/webjars/**","/swagger-resources/**","/v2/api-docs");
+        super.configure(web);
+    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -50,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // 请求授权
                 .authorizeRequests()
-                .antMatchers("/oauth/token").permitAll()
                 // 任何请求
                 .anyRequest()
                 // 需要身份认证

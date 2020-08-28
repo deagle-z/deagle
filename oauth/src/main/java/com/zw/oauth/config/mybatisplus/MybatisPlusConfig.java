@@ -1,8 +1,5 @@
-package com.zw.config.mybatisplus;
+package com.zw.oauth.config.mybatisplus;
 
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
-import com.baomidou.mybatisplus.extension.incrementer.H2KeyGenerator;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,18 +30,18 @@ public class MybatisPlusConfig {
 		return new PaginationInterceptor();
 	}
 
-    @Bean
-    public MetaObjectHandler metaObjectHandler() {
-        return new MPMetaObjectHandler();
-    }
-
-	/**
-	 * 注入主键生成器
-	 */
-	@Bean
-	public IKeyGenerator keyGenerator() {
-		return new H2KeyGenerator();
-	}
+//    @Bean
+//    public MetaObjectHandler metaObjectHandler() {
+//        return new MPMetaObjectHandler();
+//    }
+//
+//	/**
+//	 * 注入主键生成器
+//	 */
+//	@Bean
+//	public IKeyGenerator keyGenerator() {
+//		return new H2KeyGenerator();
+//	}
 
 	/**
 	 * 注入sql注入器(此处注入了逻辑删除注入器)

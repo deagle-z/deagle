@@ -12,6 +12,7 @@ import ${superMapperClassPackage};
  * @since ${date}
  */
 <#if kotlin>
+ @Mapper
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {

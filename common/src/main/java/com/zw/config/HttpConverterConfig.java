@@ -6,7 +6,6 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
 
 
 /**
@@ -26,8 +25,8 @@ public class HttpConverterConfig {
         // 3.在converter中添加配置信息
         fastConverter.setFastJsonConfig(fastJsonConfig);
         // 4.将converter赋值给HttpMessageConverter
-        HttpMessageConverter<?> converter = fastConverter;
+//        HttpMessageConverter<?> converter = fastConverter;
         // 5.返回HttpMessageConverters对象
-        return new HttpMessageConverters(converter);
+        return new HttpMessageConverters(fastConverter);
     }
 }
