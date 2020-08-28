@@ -3,13 +3,13 @@ server:
 spring:
   application:
     name: zuul
-  cloud:
-    config:
-#      label: dev
-      profile: dev
-      discovery:
-        enabled: true
-        service-id: config
+#  cloud:
+#    config:
+##      label: dev
+#      profile: dev
+#      discovery:
+#        enabled: true
+#        service-id: config
   servlet:
     multipart:
       max-file-size: 100MB

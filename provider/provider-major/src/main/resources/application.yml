@@ -182,8 +182,8 @@ mybatis-plus:
 #      db-type: mysql
     # IGNORED	忽略判断 NOT_NULL 非NULL判断  NOT_EMPTY 非空判断(只对字符串类型字段,其他类型字段依然为非NULL判断)  DEFAULT	追随全局配置 类似的还有update-strategy、select-strategy等
 #      insert-strategy: not_null
-refresh: 123
-customer: 456
+#refresh: 123
+#customer: 456
 #    elasticsearch:
 #      client:
 #        reactive:

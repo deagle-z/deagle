@@ -1,13 +1,28 @@
-#zuul:
-#  host:
-#    socket-timeout-millis: 15000
-#    connect-timeout-millis: 60000
-#  force-original-query-string-encoding: true
-#  routes:
-#    clientMajor:
-#      path: /deagle/major/**
-#      sensitiveHeaders:
-#      service-id: clientMajor
+zuul:
+  host:
+    socket-timeout-millis: 15000
+    connect-timeout-millis: 60000
+  force-original-query-string-encoding: true
+  routes:
+    oauth:
+      service-id: oauth
+      path: /oauth/major/**
+
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 1000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 9000
+#  ignored-services: '*' 禁止通过服务名称访问
+#  prefix: 'deagle' 设置前缀
+
+
+
 #  ribbon-isolation-strategy: SEMAPHORE
 #  semaphore:
 #    max-semaphores: 20
@@ -22,14 +37,3 @@
 #  eager-load:
 #    enabled: true
 #    clients: clientMajor
-spring:
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 1024MB
-#zuul:
-#  host:
-#    connect-timeout-millis: 300000
-#    socket-timeout-millis: 100000
-#    connection-request-timeout-millis: 100000
-#    time-to-live: 10000

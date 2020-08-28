@@ -11,8 +11,6 @@ import org.springframework.web.filter.CorsFilter;
 
 @EnableZuulProxy
 @EnableEurekaClient
-//@EnableSwaggerButler
-// 一个增强swagger的工具
 @SpringBootApplication
 public class ZuulApplication {
 

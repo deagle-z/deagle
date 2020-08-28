@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -22,10 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 @EnableResourceServer
 public class ResourceServerConfig  extends ResourceServerConfigurerAdapter {
 
-
+//    @Autowired
+//    private OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
     @Resource
     DruidDataSource dataSource;
-
+    @Resource
+    TokenStore tokenStore;
 
     /**
      * 记住我功能的token存取器配置
@@ -37,10 +41,18 @@ public class ResourceServerConfig  extends ResourceServerConfigurerAdapter {
 
         final JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(this.dataSource);
-        //		tokenRepository.setCreateTableOnStartup(true); // 第一次启动创建
+//        tokenRepository.setCreateTableOnStartup(true); // 第一次启动创建
         return tokenRepository;
     }
 
+
+    @Override
+    public void configure(final ResourceServerSecurityConfigurer resources) {
+        resources
+//                .expressionHandler(this.oAuth2WebSecurityExpressionHandler)
+                .resourceId("auth");
+//        .tokenStore(tokenStore)
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

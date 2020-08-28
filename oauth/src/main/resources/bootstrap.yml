@@ -58,7 +58,7 @@ spring:
     password: zhw!@#
     port: 6379
   application:
-    name: eureka
+    name: oauth
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*/*Mapper.xml
 
