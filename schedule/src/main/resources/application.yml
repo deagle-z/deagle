@@ -1,0 +1,117 @@
+server:
+  port: 1001
+spring:
+  application:
+    name: schedule
+  datasource:
+    username: deaglez
+    password: 321!@#
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.70.222.176:3306/deagle?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 500
+      phy-timeout-millis: 7200000
+      remove-abandoned: true
+      remove-abandoned-timeout: 180
+      test-while-idle: true
+      test-on-return: false
+      test-on-borrow: false
+      validation-query: SELECT 1
+      validation-query-timeout: 1
+      time-between-eviction-runs-millis: 15000
+      default-auto-commit: true
+      log-abandoned: false
+      connection-properties: socketTimeout=300000;connectTimeout=100000
+#logging:
+#  level:
+#    io:
+#      seata: info
+#      samples:
+#        account:
+#          persistence:
+#            AccountMapper: debug
+#          druid:
+#            initialSize: 1
+#            maxActive: 10
+#            minIdle: 1
+#            maxWait: 60000
+#            pool-prepared-statements: false
+#            max-open-prepared-statements: -1
+#            validationQuery: select 'x'
+#            testOnBorrow: false
+#            testOnReturn: false
+#            testWhileIdle: true
+#            timeBetweenEvictionRunsMillis: 60000
+#            minEvictableIdleTimeMillis: 300000
+#            connectionInitSqls: select 1 from dual
+#            filters: stat, wall
+#            filter:
+#              # 监控统计
+#              stat:
+#                # 数据库类型
+#                db-type: mysql
+#                # 慢SQL
+#                log-slow-sql: true
+#                # 慢SQL执行时间
+#                slow-sql-millis: 2000
+#              wall:
+#                enabled: true
+#                db-type: mysql
+#                config:
+#                  delete-allow: false
+#                  drop-table-allow: false
+
+      # statViewServlet配置，说明配置参考druid wiki
+      #      stat-view-servlet:
+      #        # 是否启用statViewServlet配置
+      #        enabled: true
+      #        # 访问监控页面
+      #        url-pattern: "/druid/*"
+      #        # 禁止手动重置监控数据
+      #        reset-enable: false
+      #        # 设置监控页面的登陆名
+      #        login-username: admin
+      #        # 设置监控页面的登陆密码
+      #        login-password: admin
+
+      #WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+#      web-stat-filter:
+#        # 是否启用WebStatFilter
+#        enabled: true
+#        # 访问路径
+#        url-pattern: "/*"
+#        # 排除不必要的url
+#        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+#        # 监控最大session数，默认是1000
+#        session-stat-max-count: 1000
+#        # 是否启用session的统计功能
+#        session-stat-enable: true
+#        # 是否启用监控单个Url调用的sql列表
+#        profile-enable: true
+#        # 使druid当前session的用户是谁，session_user_key是你保存到session中的sessionName
+#        principalSessionName: session_user_key
+#        # 使druid只当当前的user是谁,cookie_user_key是你保存在cookie中的cookieName
+#        principalCookieName: cookie_user_key
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  type-aliases-package: com.zw.**
+  type-aliases-super-type: java.lang.Object
+  type-enums-package: com.baomidou.mybatisplus.samples.quickstart.enums
+  check-config-location: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    aggressive-lazy-loading: true
+    auto-mapping-behavior: partial
+    auto-mapping-unknown-column-behavior: FAILING
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+

@@ -7,6 +7,7 @@ zuul:
     oauth:
       service-id: oauth
       path: /oauth/major/**
+  sensitive-headers:
 
 ribbon:
   ReadTimeout: 5000

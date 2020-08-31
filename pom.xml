@@ -16,6 +16,7 @@
         <module>seata</module>
         <module>api</module>
         <module>generator</module>
+        <module>schedule</module>
 <!--        <module>akka</module>-->
 <!--        <module>nacos</module>-->
     </modules>

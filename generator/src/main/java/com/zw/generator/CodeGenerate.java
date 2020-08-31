@@ -12,19 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeGenerate {
+    private static final String TABLE_NAMES = "Sys_job";
+    private static final String ENTITY_NAME = "SysJob";
+    private static final String PARENT_MODULE_NAME = "com.zw.schedule";
+    public static final String MAPPER_NAME = "SysJob";
+
     private static final String AUTHOR = "zw";
 
     private static final String DIR = "D:\\generate";
 
-    private static final String PARENT_MODULE_NAME = "com.zw.auth";
     private static final String MODULE_NAME = "business";
 
     private static final String DATASOURCE = "124.70.222.176:3306";
     private static final String DBNAME = "deagle";
     private static final String DB_USER = "deaglez";
     private static final String DB_PASSWORD = "321!@#";
-    private static final String TABLE_NAMES = "a_client";
-    private static final String ENTITY_NAME = "Client";
 
     public static void main(String[] args) {
 
@@ -43,8 +45,8 @@ public class CodeGenerate {
         gc.setServiceName(ENTITY_NAME + "Service");
         gc.setServiceImplName(ENTITY_NAME + "ServiceImpl");
         gc.setControllerName(ENTITY_NAME + "Controller");
-        gc.setXmlName(ENTITY_NAME + "Mapper.xml");
-        gc.setMapperName(ENTITY_NAME + "Mapper");
+        gc.setXmlName(MAPPER_NAME + "Mapper.xml");
+        gc.setMapperName(MAPPER_NAME + "Mapper");
         //gc.setSwagger2(true); //实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
