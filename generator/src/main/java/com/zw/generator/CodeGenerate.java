@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeGenerate {
-    private static final String TABLE_NAMES = "Sys_job";
-    private static final String ENTITY_NAME = "SysJob";
-    private static final String PARENT_MODULE_NAME = "com.zw.schedule";
-    public static final String MAPPER_NAME = "SysJob";
+    private static final String TABLE_NAMES = "sys_file";
+    private static final String ENTITY_NAME = "SysFile";
+    private static final String PARENT_MODULE_NAME = "com.zw.file";
+    public static final String MAPPER_NAME = "SysFile";
 
     private static final String AUTHOR = "zw";
 
@@ -45,8 +45,8 @@ public class CodeGenerate {
         gc.setServiceName(ENTITY_NAME + "Service");
         gc.setServiceImplName(ENTITY_NAME + "ServiceImpl");
         gc.setControllerName(ENTITY_NAME + "Controller");
-        gc.setXmlName(MAPPER_NAME + "Mapper.xml");
         gc.setMapperName(MAPPER_NAME + "Mapper");
+        gc.setXmlName(MAPPER_NAME + "Mapper.xml");
         //gc.setSwagger2(true); //实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
@@ -80,17 +80,21 @@ public class CodeGenerate {
 
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
-        // 自定义配置会被优先输出
+
+        //  开启自定义输出
+        //  自定义配置会被优先输出
         final FileOutConfig fileOutConfig = new FileOutConfig(templatePath) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                 return DIR + "/src/main/resources/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName().substring(1) + "Mapper" + StringPool.DOT_XML;
+                        + "/" + MAPPER_NAME + "Mapper" + StringPool.DOT_XML;
             }
         };
         System.out.println(fileOutConfig.toString()+"------------------------");
         focList.add(fileOutConfig);
+
+
         /*
         cfg.setFileCreate(new IFileCreate() {
             @Override

@@ -1,0 +1,70 @@
+server:
+  port: 1005
+boots:
+  module:
+    minio:
+      url: http://119.45.152.4
+      port: 9000
+      accessKey: admin#@!!@#
+      secretKey: deagle#@!!@#
+      bucketName: deagle
+spring:
+  application:
+    name: file
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 10MB
+  datasource:
+    username: deaglez
+    password: 321!@#
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.70.222.176:3306/deagle?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 500
+      phy-timeout-millis: 7200000
+      remove-abandoned: true
+      remove-abandoned-timeout: 180
+      test-while-idle: true
+      test-on-return: false
+      test-on-borrow: false
+      validation-query: SELECT 1
+      validation-query-timeout: 1
+      time-between-eviction-runs-millis: 15000
+      default-auto-commit: true
+      log-abandoned: false
+      connection-properties: socketTimeout=300000;connectTimeout=100000
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  type-aliases-package: com.zw.**
+  type-aliases-super-type: java.lang.Object
+  type-enums-package: com.baomidou.mybatisplus.samples.quickstart.enums
+  check-config-location: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    aggressive-lazy-loading: true
+    auto-mapping-behavior: partial
+    auto-mapping-unknown-column-behavior: FAILING
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 #定时刷新本地缓存时间
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 #心跳间隔时间 生产默认30
+    lease-expiration-duration-in-seconds: 300 # 没有心跳的淘汰时间 默认90 本地300 实际应为10
+    prefer-ip-address: false # 默认false 设置为true

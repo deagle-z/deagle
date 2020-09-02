@@ -6,7 +6,11 @@ zuul:
   routes:
     oauth:
       service-id: oauth
-      path: /oauth/major/**
+      path: /oauth/**
+    file:
+      service-id: file
+      path: /file/**
+
   sensitive-headers:
 
 ribbon:
