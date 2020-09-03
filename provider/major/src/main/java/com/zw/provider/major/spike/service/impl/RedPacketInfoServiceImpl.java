@@ -91,7 +91,7 @@ public class RedPacketInfoServiceImpl extends ServiceImpl<RedPacketInfoMapper, R
 			final BigDecimal totalAmount = totalAmountBucket.get();
 			//剩余红包总数
 			final Integer totalPacket = totalPacketBucket.get();
-			if (null == totalAmountBucket || null == totalPacketBucket || null==totalAmount || totalAmount.compareTo(BigDecimal.ZERO) <= 0 || null == totalPacket || totalPacket <= 0) {
+			if (null==totalAmount || totalAmount.compareTo(BigDecimal.ZERO) <= 0 || null == totalPacket || totalPacket <= 0) {
 				throw new BusinessException("红包已经被抢完了！");
 			}
 
