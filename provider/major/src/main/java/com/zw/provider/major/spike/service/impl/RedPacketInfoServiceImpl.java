@@ -1,7 +1,6 @@
 package com.zw.provider.major.spike.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zw.exception.BusinessException;
 import com.zw.provider.major.spike.entity.RedPacketInfoEntity;
@@ -75,10 +74,10 @@ public class RedPacketInfoServiceImpl extends ServiceImpl<RedPacketInfoMapper, R
 		RedPacketRecordEntity record = new RedPacketRecordEntity();
 
 		//该用户是否已抢过该红包
-		final RedPacketRecordEntity one = redPacketRecordService.getOne(Wrappers.<RedPacketRecordEntity>lambdaQuery().eq(RedPacketRecordEntity::getUserId, userId).eq(RedPacketRecordEntity::getRedPacketId, redPacketId));
-		if(null==one){
-			throw new BusinessException("你已经抢过该红包了！");
-		}
+		// final RedPacketRecordEntity one = redPacketRecordService.getOne(Wrappers.<RedPacketRecordEntity>lambdaQuery().eq(RedPacketRecordEntity::getUserId, userId).eq(RedPacketRecordEntity::getRedPacketId, redPacketId));
+		// if(null==one){
+		// 	throw new BusinessException("你已经抢过该红包了！");
+		// }
 
 		final RLock lock = redissonClient.getLock("red_packet_" + redPacketId);
 		try {
@@ -111,10 +110,11 @@ public class RedPacketInfoServiceImpl extends ServiceImpl<RedPacketInfoMapper, R
 				//清楚redis数据
 				totalPacketBucket.delete();
 				totalAmountBucket.delete();
+				System.out.println("--------------------mount:" + totalAmount);
 			} else {
 				//额度在0.01和(剩余平均值*2)
 				final ThreadLocalRandom random = ThreadLocalRandom.current();
-				BigDecimal max = totalAmount.divide(new BigDecimal(totalPacket)).multiply(new BigDecimal("2")).setScale(2, RoundingMode.HALF_UP);
+				BigDecimal max = totalAmount.divide(new BigDecimal(totalPacket),4).multiply(new BigDecimal("2")).setScale(2, RoundingMode.HALF_UP);
 				final double randomAmount = random.nextDouble(0.01D, max.doubleValue());
 				BigDecimal amount = randomAmount <= 0.01D ? new BigDecimal(MIN_AMOUNT) : new BigDecimal(String.valueOf(randomAmount)).setScale(2, RoundingMode.HALF_UP);
 				if (amount.compareTo(totalAmount) >= 0) {
@@ -127,12 +127,15 @@ public class RedPacketInfoServiceImpl extends ServiceImpl<RedPacketInfoMapper, R
 				totalPacketBucket.set(totalPacket - 1);
 				//金额重新计算存入
 				totalAmountBucket.set(totalAmount.subtract(amount));
+				System.out.println("--------------------mount:" + amount);
 			}
 			//新增抢红包记录
 			record.setRedPacketId(redPacketId);
+
 		} catch (BusinessException e) {
 			throw new BusinessException(e.getMessage());
 		} catch (Exception e) {
+			log.error("--------------e:{}",e.getCause());
 			throw new BusinessException("服务器异常,请稍后重试！");
 		} finally {
 			lock.unlock();
