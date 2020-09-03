@@ -12,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeGenerate {
-    private static final String TABLE_NAMES = "sys_file";
-    private static final String ENTITY_NAME = "SysFile";
-    private static final String PARENT_MODULE_NAME = "com.zw.file";
-    public static final String MAPPER_NAME = "SysFile";
+    private static final String TABLE_NAMES = "red_packet_record";
+    private static final String ENTITY_NAME = "RedPacketRecord";
+    private static final String PARENT_MODULE_NAME = "com.zw.provider.major";
+    public static final String MAPPER_NAME = "RedPacketRecord";
 
     private static final String AUTHOR = "zw";
 
     private static final String DIR = "D:\\generate";
 
-    private static final String MODULE_NAME = "business";
+    private static final String MODULE_NAME = "spike";
 
     private static final String DATASOURCE = "124.70.222.176:3306";
     private static final String DBNAME = "deagle";
@@ -47,7 +47,8 @@ public class CodeGenerate {
         gc.setControllerName(ENTITY_NAME + "Controller");
         gc.setMapperName(MAPPER_NAME + "Mapper");
         gc.setXmlName(MAPPER_NAME + "Mapper.xml");
-        //gc.setSwagger2(true); //实体属性 Swagger2 注解
+        gc.setFileOverride(true);
+        gc.setBaseResultMap(true);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置

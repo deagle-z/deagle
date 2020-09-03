@@ -35,7 +35,7 @@ public class RedisUtil {
     public void expire(String key, Object value,  Integer seconds) {
         Assert.notNull(key, "redis key 不可为null");
         Assert.notNull(value, "redis value 不可为null");
-        redisTemplate.opsForValue().set(key, JSONObject.toJSONString(value), seconds == null ? seconds : 5000);
+        redisTemplate.opsForValue().set(key, JSONObject.toJSONString(value), seconds == null ? 5000 : seconds);
     }
 
     public boolean del(String key) {

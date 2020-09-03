@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 
 /**
  * 注解 OrderHandlerType 实现类
+ *
  * @author zw562
  */
 public class OrderHandlerTypeImpl implements OrderHandlerType {

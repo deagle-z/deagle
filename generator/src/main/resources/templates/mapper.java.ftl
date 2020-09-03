@@ -15,6 +15,7 @@ import ${superMapperClassPackage};
  @Mapper
 interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
+ @Mapper
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
 
 }

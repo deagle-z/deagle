@@ -81,6 +81,8 @@ public class ThreadLocalMap {
      * 清理线程所有被hold住的对象。以便重用！
      */
     public static void remove() {
-        getContextMap().clear();
+        THREAD_CONTEXT.remove();
     }
+
+
 }

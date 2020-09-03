@@ -14,7 +14,7 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>provider-major</module>
+        <module>major</module>
         <module>produce</module>
         <module>consumer</module>
     </modules>

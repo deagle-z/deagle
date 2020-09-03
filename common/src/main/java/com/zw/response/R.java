@@ -25,13 +25,18 @@ public class R<T> implements Serializable {
     private static final String MSG = "success";
 
     public static final String FAIL_MSG = "error";
-    private String msg = "success";
 
+    public static final String PROMPT_MSG = "error";
 
     private int code = SUCCESS;
 
+    private String msg = "success";
+
+    private String prompt;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private T data;
+
 
     public R() {
         super();
@@ -91,6 +96,14 @@ public class R<T> implements Serializable {
         this.data = data;
     }
 
+    public String getPrompt() {
+        return prompt;
+    }
+
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
+    }
+
     public static R<Boolean> rest(boolean result) {
         R<Boolean> r = new R<Boolean>();
         if (!result) {
@@ -119,4 +132,5 @@ public class R<T> implements Serializable {
     public static R<String> error(String msg) {
         return new R<>(msg, FAIL);
     }
+
 }
