@@ -14,6 +14,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+  * 策略模式代替 if else 测试
+  *
+  * @author zw
+  * @date 2020/12/25
+  */
 @Service
 public class OrderService {
     private Map<OrderHandlerType, OrderHandlerService> orderHandlerServiceMap;
@@ -29,7 +35,7 @@ public class OrderService {
 
     }
 
-    public void orderService(Order order) {
+    public void pay(Order order) {
         // ...一些前置处理
 
         // 通过订单来源 订单支付方式确定对应的handler

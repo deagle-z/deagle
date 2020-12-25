@@ -40,8 +40,8 @@ public class RedPacketInfoServiceImpl extends ServiceImpl<RedPacketInfoMapper, R
 	/**
 	 * 发红包
 	 *
-	 * @param totalAmount
-	 * @param totalPacket
+	 * @param totalAmount 红包总金额
+	 * @param totalPacket 红包总计数量
 	 */
 	@Override
 	public boolean sendRedPackage(BigDecimal totalAmount, Integer totalPacket, String userId) {
