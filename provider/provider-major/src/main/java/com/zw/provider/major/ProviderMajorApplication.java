@@ -2,6 +2,7 @@ package com.zw.provider.major;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @ComponentScan("com.zw")
 @EnableAspectJAutoProxy
+@EnableCaching
 public class ProviderMajorApplication {
 
     public static void main(String[] args) {
